@@ -1,24 +1,11 @@
 import React, { PropTypes } from 'react';
-import { Well } from 'react-bootstrap';
+import { Well, Button } from 'react-bootstrap';
+import PModal from './proyModal';
 
 
 //{this.props.proyecto.LOQUEDESEAS}
 class Proyecto extends React.Component {
 
-  constructor(props){
-    super(props);
-    this.state={
-      modal:false
-    }
-  }
-
-  modalClose() {
-    this.setState({ modal: false });
-  }
-
-  modalOpen() {
-    this.setState({ modal: true });
-  }
   render () {
     return(
       <div className="proyecto">
@@ -29,10 +16,13 @@ class Proyecto extends React.Component {
               <h2>{this.props.proyecto.name}</h2>
               <h5>{this.props.proyecto.author}</h5>
             </div>
-
             <div className = "row text-center">
-              <a href={this.props.proyecto.repo.url}><h5><i className="fa fa-github fa-2x" aria-hidden="true"></i> Repo</h5></a>
+              <p>{this.props.proyecto.summary}</p>
             </div>
+            <div className = "row text-center">
+              <a href={this.props.proyecto.repo.url} target="_blank"><h5><i className="fa fa-github fa-2x" aria-hidden="true"></i> Repo</h5></a>
+            </div>
+
             <div className="row">
               <div className ="col-md-4">
                 <h6><i className="fa fa-code-fork fa-lg" aria-hidden="true"></i> Forks: {this.props.proyecto.repo.forks}</h6>
@@ -45,7 +35,8 @@ class Proyecto extends React.Component {
               </div>
             </div>
             <div className="row text-center">
-              <a>Learn more</a>
+              <br></br>
+              <PModal proyecto={this.props.proyecto}/>
             </div>
           </div>
         </Well>

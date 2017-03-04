@@ -6,6 +6,13 @@ class Proyectos extends Component{
     if (this.props.proyectos){
       return(
         <div>
+          <div className="tit text-center">
+            <h1>
+              Current projects
+            </h1>
+            <hr></hr>
+          </div>
+
           {this.props.proyectos.map((proyecto)=>{
             return(
               <div className="col-md-4">

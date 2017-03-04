@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Proyectos from './proyectos';
 import Navib from './navbar';
+import About from './about';
 
 class App extends Component {
 
@@ -13,6 +14,7 @@ class App extends Component {
         {
           id:1,
           name: "Mi primer proyecto",
+          summary: "soy lo mega max",
           descripcion: "Me gustaria que todos me ayudaran en mi proyecto que busca ser un proyecto chevere e innorvador",
           img: null,
           repo: {
@@ -31,6 +33,7 @@ class App extends Component {
         {
           id:2,
           name: "Mi segundo proyecto",
+          summary: "soy lo mega max",
           descripcion: "Me gustaria que todos me ayudaran en mi proyecto que busca ser un proyecto chevere e innorvador",
           img: null,
           repo: {
@@ -49,6 +52,7 @@ class App extends Component {
         {
           id:3,
           name: "Mi segundo proyecto",
+          summary: "soy lo mega max",
           descripcion: "Me gustaria que todos me ayudaran en mi proyecto que busca ser un proyecto chevere e innorvador",
           img: null,
           repo: {
@@ -67,6 +71,7 @@ class App extends Component {
         {
           id:4,
           name: "Mi segundo proyecto",
+          summary: "soy lo mega max",
           descripcion: "Me gustaria que todos me ayudaran en mi proyecto que busca ser un proyecto chevere e innorvador",
           img: null,
           repo: {
@@ -90,6 +95,7 @@ class App extends Component {
     return(
       <div>
         <Navib/>
+        <About/>
         <Proyectos proyectos={this.state.proyectos}/>
       </div>
     )

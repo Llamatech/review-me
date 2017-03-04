@@ -1,11 +1,32 @@
 import React, { PropTypes } from 'react';
-import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
+import { Navbar, NavItem, NavDropdown, MenuItem, Nav, FormGroup, FormControl, Button } from 'react-bootstrap';
+import PForm from './proyForm'
 
 class Navib extends React.Component {
+  buscar(term){
+    console.log(term);
+    //aqui se llama para atras a lo que llame a la db
+  }
+
+  constructor(props){
+    super(props);
+    this.state={
+      showModal:false
+    }
+  }
+
+  modalClose() {
+    this.setState({ showModal: false });
+  }
+
+  modalOpen() {
+    this.setState({ showModal: true });
+  }
+
   render () {
     return(
       <div>
-        <Navbar collapseOnSelect>
+        <Navbar collapseOnSelect className="navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
               <a href="#">Review Me</a>
@@ -13,23 +34,19 @@ class Navib extends React.Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav>
-              <NavItem eventKey={1} href="#">Link</NavItem>
-              <NavItem eventKey={2} href="#">Link</NavItem>
-              <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1}>Action</MenuItem>
-                <MenuItem eventKey={3.2}>Another action</MenuItem>
-                <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey={3.3}>Separated link</MenuItem>
-              </NavDropdown>
-            </Nav>
             <Nav pullRight>
-              <NavItem eventKey={1} href="#">Link Right</NavItem>
-              <NavItem eventKey={2} href="#">Link Right</NavItem>
+              <NavItem onClick={this.modalOpen.bind(this)}>Add new project</NavItem>
             </Nav>
+            <Navbar.Form pullLeft>
+        <FormGroup>
+          <FormControl type="text" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
+        </FormGroup>
+        {' '}
+        <Button type="submit">Submit</Button>
+      </Navbar.Form>
           </Navbar.Collapse>
         </Navbar>
+        <PForm show={this.state.showModal} modalClose={this.modalClose.bind(this)}></PForm>
       </div>
     )
   }
