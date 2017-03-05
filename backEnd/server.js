@@ -1,3 +1,4 @@
+'use strict';
 // Modules
 const bodyParser = require('body-parser');
 const express = require('express');

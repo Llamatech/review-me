@@ -1,10 +1,13 @@
-// const Estudiante = require('../models/estudiante');
+'use strict';
+
+// Declare more modules here.
 const Project = require('../models/project');
 
+// HTTP endpoints declaration.
 module.exports = function(app) {
-    app.get('/', Project.get);
-  // app.get('/estudiantes', Estudiante.list);
-  // app.get('/estudiantes/:id', Estudiante.get);
-  // app.post('/estudiantes', Estudiante.add);
-  // app.delete('/estudiantes/:id', Estudiante.delete);
+    app.get('/projects', Project.list);
+    app.get('/projects/:id', Project.get);
+    app.delete('/projects/:id', Project.remove);
+    app.post('/projects', Project.create);
+    app.post('/projects', Project.create);
 }
