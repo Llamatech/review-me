@@ -10,12 +10,12 @@ var database = (db) => {
     return 'mongodb://'+mongo_url+'/'+db;
 }
 
-exports.find = (col, queryitions, callback) => {
+exports.find = (col, query, callback) => {
     var mongo_url = database(dbName);
     MongoClient.connect(mongo_url, (err, db) => {
         console.log("Connecting to: "+mongo_url);
         var collection = db.collection(col);
-        collection.find(queryitions).toArray((err, docs) => {
+        collection.find(query).toArray((err, docs) => {
             assert.equal(err, null);
             callback(docs);
             console.log('Closing connection...');
@@ -52,16 +52,30 @@ exports.delete = (col, query, callback) => {
     });
 }
 
-exports.update = (col, query, update, callback) => {
+exports.update = (col, query, update, more, callback) => {
     var mongo_url = database(dbName);
     MongoClient.connect(mongo_url, (err, db) => {
         console.log("Connecting to: "+mongo_url);
         var collection = db.collection(col);
-        collection.update(query, update, (err, doc) => {
+        collection.update(query, update, more, (err, doc) => {
             if(err) throw err;
             callback(doc);
             console.log('Closing connection...');
             db.close();
         });
+    });
+}
+
+exports.aggregate = (col, query, callback) => {
+    var mongo_url = database(dbName);
+    MongoClient.connect(mongo_url, (err, db) => {
+        console.log("Connecting to: "+mongo_url);
+        var collection = db.collection(col);
+        collection.aggregate(query, (err, doc) => {
+            if(err) throw err;
+            callback(doc);
+            console.log('Closing connection...');
+            db.close();
+        })
     });
 }
