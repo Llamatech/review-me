@@ -12,7 +12,7 @@ class PForm extends React.Component {
 
         <Modal show={this.props.show} onHide={()=>this.props.modalClose()}>
           <Modal.Header closeButton>
-            <Modal.Title>FORM</Modal.Title>
+            <Modal.Title>Add a new project</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <h4>Text in a modal</h4>

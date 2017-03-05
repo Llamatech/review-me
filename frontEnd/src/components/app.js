@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Proyectos from './proyectos';
+import Proyectos from './proyecto/proyectos';
 import Navib from './navbar';
 import About from './about';
 
@@ -22,6 +22,7 @@ class App extends Component {
             stars:3,
             watches:5,
             forks:2,
+            issues:1,
             language: "JavaScript"
           },
           webpage: "http://example.com",

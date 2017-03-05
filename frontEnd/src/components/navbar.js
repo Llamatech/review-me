@@ -34,7 +34,7 @@ class Navib extends React.Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav pullRight>
+            <Nav>
               <NavItem onClick={this.modalOpen.bind(this)}>Add new project</NavItem>
             </Nav>
             <Navbar.Form pullLeft>

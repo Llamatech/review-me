@@ -1,10 +1,34 @@
 import React, { PropTypes } from 'react';
 import { Well, Button } from 'react-bootstrap';
 import PModal from './proyModal';
+import ReactStars from 'react-stars';
+
 
 
 //{this.props.proyecto.LOQUEDESEAS}
 class Proyecto extends React.Component {
+
+  constructor(props){
+    super(props);
+    console.log(props.proyecto.comments);
+    this.state={
+      avgRating:props.proyecto.avgRating,
+      comments:props.proyecto.comments
+    }
+  }
+
+  addRating(newRate){
+    var newAvgRate=5;//lamado a axio
+    this.setState({avgRating:newAvgRate});
+    console.log(newRate);
+  }
+
+  saveComment(text){
+    var newComm = ["HOLEEEEEE","que huboooo"];//llamado a axio con text
+    this.setState({
+      comments: newComm
+    })
+  }
 
   render () {
     return(
@@ -35,8 +59,11 @@ class Proyecto extends React.Component {
               </div>
             </div>
             <div className="row text-center">
+              <ReactStars count={5} size={24} color2={'#93c54b'} edit={false} value={this.state.avgRating}/>
+            </div>
+            <div className="row text-center">
               <br></br>
-              <PModal proyecto={this.props.proyecto}/>
+              <PModal proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
             </div>
           </div>
         </Well>
