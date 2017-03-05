@@ -12,8 +12,9 @@ class Proyecto extends React.Component {
     super(props);
     console.log(props.proyecto.comments);
     this.state={
-      avgRating:props.proyecto.avgRating,
-      comments:props.proyecto.comments
+      avgRating:props.proyecto.ratings[0],
+      comments:props.proyecto.comments,
+      alert:false
     }
   }
 
@@ -24,10 +25,15 @@ class Proyecto extends React.Component {
   }
 
   saveComment(text){
-    var newComm = ["HOLEEEEEE","que huboooo"];//llamado a axio con text
-    this.setState({
-      comments: newComm
-    })
+    if(text.length<5){
+      this.setState({alert:true});
+    }else{
+      var newComm = [{text:"HOLEEEEEE"},{text:"que huboooo"}];//llamado a axio con text
+      this.setState({
+        comments: newComm,
+        alert:false
+      })
+    }
   }
 
   render () {
@@ -63,7 +69,7 @@ class Proyecto extends React.Component {
             </div>
             <div className="row text-center">
               <br></br>
-              <PModal proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
+              <PModal alert={this.state.alert} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
             </div>
           </div>
         </Well>

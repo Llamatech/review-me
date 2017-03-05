@@ -37,12 +37,12 @@ class PModal extends React.Component {
             <Modal.Title><h2>{this.props.proyecto.name}  <small><a href={"https://github.com/"+this.props.proyecto.author}>{this.props.proyecto.author}</a></small></h2></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Description</h4>
+            <h3>Description</h3>
             <p>{this.props.proyecto.descripcion}</p>
 
             <hr />
 
-            <h4>Open source information</h4>
+            <h3>Open source information</h3>
               <div className="row">
                 <div className ="col-md-3">
                   <h6><i className="fa fa-code-fork fa-lg" aria-hidden="true"></i> Forks: {this.props.proyecto.repo.forks}</h6>
@@ -59,17 +59,26 @@ class PModal extends React.Component {
               </div>
               <div className="row">
                 <div className="col-md-12">
-                  <h5>Primary language: <small>{this.props.proyecto.repo.language}</small></h5>
+                  <h4>Primary language: <small>{this.props.proyecto.repo.language}</small></h4>
                 </div>
               </div>
+
+              {this.props.proyecto.webpage &&
+                <div className="row">
+                  <div className="col-md-12">
+                    <h4>Webpage: <a href={this.props.proyecto.webpage}><small>{this.props.proyecto.webpage}</small></a></h4>
+                  </div>
+                </div>
+              }
               <hr/>
-              <h4>Rate this project</h4>
+              <h3>Rate this project</h3>
 
               <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#93c54b'} value={this.props.avgRating} />
 
+              <h4>Past reviews</h4>
               <div className="row">
 
-                <Comments comments={this.props.comments} saveComment={this.props.saveComment}/>
+                <Comments alert={this.props.alert} comments={this.props.comments} saveComment={this.props.saveComment}/>
               </div>
 
           </Modal.Body>

@@ -22,3 +22,18 @@ div.about{
 .tit h1{
   font-size:5em;
 }
+
+.well{
+  background-color: #EEE;
+}
+
+
+
+.newProj a,i:hover{
+  color:#98978b !important;
+}
+
+.newProj a{
+  color:#FFFFFF !important;
+
+}

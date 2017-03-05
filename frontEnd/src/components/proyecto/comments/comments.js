@@ -23,14 +23,34 @@ class Comments extends React.Component {
       <div>
         {this.props.comments && this.props.comments.map(comentario=>{
           return(
-              <Comment text={comentario}/>
+            <div className="col-md-12">
+              <Comment text={comentario.text}/>
+            </div>
           )
         })}
-        <form onSubmit={this.cleanComment.bind(this)}>
-          <input value={this.state.curComment} type="text" onChange={(event)=>
-            this.setState({curComment: event.target.value})
-          }/>
-        </form>
+        <div className="col-md-12">
+        <h4>   Give a constructive review!</h4>
+        </div>
+        <div className="row">
+          <div className="col-md-10 offset-md-2">
+            {this.props.alert &&
+              <div className="alert alert-danger" role="alert">
+                <strong>Warning!</strong> Comments should be longer than 5 characters!
+              </div>
+            }
+          </div>
+        </div>
+
+          <div className="col-md-12">
+
+            <form  onSubmit={this.cleanComment.bind(this)}>
+              <textarea className="form-control" rows="3" value={this.state.curComment} type="text" onChange={(event)=>
+                this.setState({curComment: event.target.value})
+              }/>
+            <br></br>
+              <button type="submit" className="btn btn-default btn-sm">Submit</button>
+            </form>
+        </div>
       </div>
     )
   }

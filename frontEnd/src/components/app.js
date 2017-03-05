@@ -26,10 +26,9 @@ class App extends Component {
             language: "JavaScript"
           },
           webpage: "http://example.com",
-          comments:["wash me encata","que es esto tan play","wow esta pesimo"],
+          comments:[{text:"wash me encata"},{text:"que es esto tan play"},{text:"wow esta pesimo"}],
           author: "YO",
-          ratings:[1,2,3,4,5,4,3,2,1],
-          avgRating: 3.5
+          ratings:[3.5]
         },
         {
           id:2,
@@ -44,11 +43,10 @@ class App extends Component {
             forks:4,
             language: "Python"
           },
-          webpage: "http://example.com",
-          comments:["wash me encata","que es esto tan play","wow esta pesimo"],
+          webpage: "",
+          comments:[{text:"wash me encata"},{text:"que es esto tan play"},{text:"wow esta pesimo"}],
           author: "Camis",
-          ratings:[1,2,3,4,5,4,3,2,1],
-          avgRating: 3.5
+          ratings:[4.5]
         },
         {
           id:3,
@@ -64,10 +62,9 @@ class App extends Component {
             language: "Python"
           },
           webpage: "http://example.com",
-          comments:["wash me encata","que es esto tan play","wow esta pesimo"],
+          comments:[{text:"wash me encata"},{text:"que es esto tan play"},{text:"wow esta pesimo"}],
           author: "Camis",
-          ratings:[1,2,3,4,5,4,3,2,1],
-          avgRating: 3.5
+          ratings:[3.5]
         },
         {
           id:4,
@@ -83,10 +80,9 @@ class App extends Component {
             language: "Python"
           },
           webpage: "http://example.com",
-          comments:["wash me encata","que es esto tan play","wow esta pesimo"],
+          comments:[{text:"wash me encata"},{text:"que es esto tan play"},{text:"wow esta pesimo"}],
           author: "Cami",
-          ratings:[1,2,3,4,5,4,3,2,1],
-          avgRating: 3.5
+          ratings:[2]
         }
       ]
     }

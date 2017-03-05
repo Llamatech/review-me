@@ -29,13 +29,15 @@ class Navib extends React.Component {
         <Navbar collapseOnSelect className="navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">Review Me</a>
+              <a href="#"><img src="https://68.media.tumblr.com/024cf54439d1a61124ce6ab1436174c2/tumblr_omb3fcuptx1qh8q8mo1_400.png" width="10px" style={{float:"left","margin-right":"5px"}}></img>   Review Me</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem onClick={this.modalOpen.bind(this)}>Add new project</NavItem>
+              <NavItem className="newProj" onClick={this.modalOpen.bind(this)}>
+                <i className="fa fa-plus fa-lg fa-inverse "></i>    Add new project
+              </NavItem>
             </Nav>
             <Navbar.Form pullLeft>
         <FormGroup>
