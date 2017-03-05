@@ -10,7 +10,8 @@
     "mongodb": "^2.2.24",
     "morgan": "^1.8.1",
     "request": "^2.80.0",
-    "thinky": "^2.3.8"
+    "thinky": "^2.3.8",
+    "url-join": "^1.1.0"
   },
   "devDependencies": {},
   "scripts": {
