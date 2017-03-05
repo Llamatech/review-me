@@ -46,9 +46,12 @@ class Proyecto extends React.Component {
               <h2>{this.props.proyecto.name}</h2>
               <h5>{this.props.proyecto.author}</h5>
             </div>
-            <div className = "row text-center">
-              <p>{this.props.proyecto.summary}</p>
-            </div>
+
+            {this.props.proyecto.summary &&
+              <div className = "row text-center">
+                <p>{this.props.proyecto.summary}</p>
+              </div>
+            }
             <div className = "row text-center">
               <a href={this.props.proyecto.repo.url} target="_blank"><h5><i className="fa fa-github fa-2x" aria-hidden="true"></i> Repo</h5></a>
             </div>
