@@ -9,6 +9,7 @@
     "express": "^4.15.0",
     "mongodb": "^2.2.24",
     "morgan": "^1.8.1",
+    "request": "^2.80.0",
     "thinky": "^2.3.8"
   },
   "devDependencies": {},

@@ -1,30 +1,29 @@
 'use strict';
 
 const mongo = require('../db');
-var MongoClient = require('mongodb').MongoClient,
-    assert = require('assert');
+const request = require('request');
+var assert = require('assert');
 
-const collection = 'projects';
-var mongo_url = mongo.database('review-me');
-console.log(mongo_url)
+var collection = 'projects';
 
-var findDocuments = (db, callback) => {
-    // Get the documents collection
-    var collection = db.collection('projects');
-    // Find some documents
-    collection.find({}).toArray((err, docs) => {
-        assert.equal(err, null);
-        callback(docs);
-    });
-}
-
-exports.get = (req, res) => {
+exports.list = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    MongoClient.connect(mongo_url, (err, db) => {
-        console.log("Connected successfully to server!");
-        findDocuments(db, (docs) => {
-            res.send(JSON.stringify({ tweets: docs }));
-            db.close();
-        });
+    mongo.find('projects', {}, (docs) =>{
+        res.send(JSON.stringify({ projects: docs }));
     });
 }
+
+exports.create = (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    console.log(req.body);
+    var project = req.body;
+
+    //Github Processing goes here.
+
+    mongo.insert('projects', project, (doc) => {
+        res.send(JSON.stringify({ project: doc }));
+    });
+}
+
+
+
