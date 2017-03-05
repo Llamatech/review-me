@@ -84,7 +84,7 @@ class App extends Component {
           },
           webpage: "http://example.com",
           comments:["wash me encata","que es esto tan play","wow esta pesimo"],
-          author: "Camis",
+          author: "Cami",
           ratings:[1,2,3,4,5,4,3,2,1],
           avgRating: 3.5
         }
