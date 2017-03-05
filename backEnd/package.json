@@ -4,12 +4,14 @@
   "description": "",
   "main": "db.js",
   "dependencies": {
+    "async": "^2.1.5",
     "body-parser": "^1.17.0",
     "cors": "^2.8.1",
     "express": "^4.15.0",
     "mongodb": "^2.2.24",
     "morgan": "^1.8.1",
     "request": "^2.80.0",
+    "sha3": "^1.2.0",
     "thinky": "^2.3.8",
     "url-join": "^1.1.0"
   },

@@ -5,12 +5,36 @@ const request = require('request');
 var assert = require('assert');
 var urljoin = require('url-join');
 var url = require('url');
+var sha3 = require('sha3');
+var async = require('async');
 
 var collection = 'projects';
 
+
 exports.list = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    mongo.find('projects', {}, (docs) =>{
+    var id = req.params.id;
+    var query = [];
+    if(id) query.push({$match: {"id": id}});
+    query.push(
+        {
+            $lookup: {
+                from: "ratings",
+                localField: "id",
+                foreignField: "id",
+                as: "ratings"
+            }
+        }
+    );
+    query.push({
+        $lookup: {
+            from: "comments",
+            localField: "id",
+            foreignField: "project",
+            as: "comments"
+        }
+    });
+    mongo.aggregate('projects', query, (docs) => {
         res.send(JSON.stringify({ projects: docs }));
     });
 }
@@ -60,25 +84,18 @@ exports.create = (req, res) => {
                 url: body.html_url,
                 fork: body.fork
             };
+            var info = body;
+            project.parent_repo = "";
             if(body.fork) {
+                info = body.parent;
                 project.parent_repo = body.parent.owner.html_url;
-                project.repo.watchers = body.parent.watchers_count;
-                project.repo.forks = body.parent.forks_count;
-                project.repo.stargazers = body.parent.stargazers_count;
-                project.repo.language = body.parent.language;
-                project.repo.issues = body.parent.open_issues;
             }
-            else {
-                project.parent_repo = "";
-                project.repo.watchers = body.watchers_count;
-                project.repo.forks = body.forks_count;
-                project.repo.stargazers = body.stargazers_count;
-                project.repo.language = body.language;
-                project.repo.issues = body.open_issues;
-            }
-            project.comments = [];
-            project.ratings = [];
-            project.avgRating = 0;
+            project.repo.watchers = info.watchers_count;
+            project.repo.forks = info.forks_count;
+            project.repo.stargazers = info.stargazers_count;
+            project.repo.language = info.language;
+            project.repo.issues = info.open_issues;
+
             console.log(project);
             mongo.insert('projects', project, (doc) => {
                 res.send(JSON.stringify({ project: doc }));
