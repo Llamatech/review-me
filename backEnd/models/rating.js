@@ -27,8 +27,10 @@ exports.publish = (req, res) => {
 
         var avg = (pastAvg*N + body.rating)/(N+1);
         var upd = {"id": body.id, "n": N+1, "avgRating": avg};
-        mongo.update('ratings', query, upd, {upsert:true}, (doc) => {
-            res.send(JSON.stringify({ rating: doc }));
+        mongo.update('ratings', query, upd, {upsert:true}, (misc) => {
+            mongo.find('ratings', query, (doc) => {
+                res.send(JSON.stringify({ rating: doc }));
+            })
         });
     });
 }

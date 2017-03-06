@@ -34,6 +34,11 @@ exports.list = (req, res) => {
             as: "comments"
         }
     });
+    query.push({
+        $addFields: {
+            ratings: "$ratings.avgRating"
+        }
+    });
     mongo.aggregate('projects', query, (docs) => {
         res.send(JSON.stringify({ projects: docs }));
     });
@@ -77,8 +82,9 @@ exports.create = (req, res) => {
         else {
             var owner = body.owner;
             project.id = body.id;
+            project.title = body.name;
             project.owner = owner.login;
-            project.description = body.description;
+            project.summary = body.description;
             project.webpage = body.homepage;
             project.repo = {
                 url: body.html_url,
@@ -92,7 +98,7 @@ exports.create = (req, res) => {
             }
             project.repo.watchers = info.watchers_count;
             project.repo.forks = info.forks_count;
-            project.repo.stargazers = info.stargazers_count;
+            project.repo.stars = info.stargazers_count;
             project.repo.language = info.language;
             project.repo.issues = info.open_issues;
 
