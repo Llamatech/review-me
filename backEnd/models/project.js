@@ -14,6 +14,8 @@ var collection = 'projects';
 exports.list = (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     var id = req.params.id;
+    var search_term = req.query.term;
+    console.log(search_term);
     var query = [];
     if(id) query.push({$match: {"id": id}});
     query.push(
@@ -39,6 +41,20 @@ exports.list = (req, res) => {
             ratings: "$ratings.avgRating"
         }
     });
+
+    if(search_term)
+    {
+        // search_term = search_term.toLowerCase();
+        query.push({
+            $match: {
+                $or: [
+                    {name:{'$regex':'\X*'+search_term+'\X*'}},
+                    {summary:{'$regex':'\X*'+search_term+'\X*'}},
+                    {owner:{'$regex':'\X*'+search_term+'\X*'}}
+                ]
+            }
+        });
+    }
     mongo.aggregate('projects', query, (docs) => {
         res.send(JSON.stringify({ projects: docs }));
     });
@@ -82,7 +98,7 @@ exports.create = (req, res) => {
         else {
             var owner = body.owner;
             project.id = body.id;
-            project.title = body.name;
+            project.name = body.name;
             project.owner = owner.login;
             project.summary = body.description;
             project.webpage = body.homepage;
