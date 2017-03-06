@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Button, Modal, FormGroup, FormControl, ControlLabel, HelpBlock  } from 'react-bootstrap';
+import axios from 'axios';
+
 
 
 class PForm extends React.Component {
@@ -12,6 +14,8 @@ class PForm extends React.Component {
       collaborator:''
     }
   }
+
+
 
   checkGithub(){
     if(this.state.url<=0){
@@ -37,7 +41,14 @@ class PForm extends React.Component {
 
   addProject(evt){
     evt.preventDefault();
-    console.log(this.state);
+    axios.post(process.env.BACK_URL+ "/projects",{
+      "url":this.state.url,
+      "description":this.state.description,
+      "collaborator":this.state.collaborator
+    })
+    .then(response => {
+      console.log(response);
+    })
   }
 
   render () {
@@ -83,7 +94,7 @@ class PForm extends React.Component {
               </FormGroup>
               <FormGroup>
                   <Button type="submit">
-                    Sign in
+                    Send
                   </Button>
               </FormGroup>
             </form>

@@ -4,7 +4,7 @@ import PForm from './proyForm'
 
 class Navib extends React.Component {
   buscar(term){
-    console.log(term);
+    this.props.buscar(term);
     //aqui se llama para atras a lo que llame a la db
   }
 

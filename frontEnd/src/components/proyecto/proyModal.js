@@ -4,6 +4,7 @@ import Comments from './comments/comments';
 import ReactStars from 'react-stars';
 
 
+
 class PModal extends React.Component {
 
   constructor(props){
@@ -71,11 +72,14 @@ class PModal extends React.Component {
                 </div>
               }
               <hr/>
-              <h3>Owner's prefered collaborator profile</h3>
-              {this.props.proyecto.collaborator &&
+
+              {this.props.proyecto.collaborator &&<div>
+                  <h3>Owner's prefered collaborator profile</h3>
                   <p>{this.props.proyecto.collaborator}</p>
+                  <a href={this.props.proyecto.url}>Start collaborating!</a>
+                  </div>
               }
-              <a href={this.props.proyecto.url}>Start collaborating!</a>
+
               <h3>Rate this project</h3>
 
               <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#93c54b'} value={this.props.avgRating} />
