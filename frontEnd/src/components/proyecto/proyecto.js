@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import { Well, Button } from 'react-bootstrap';
 import PModal from './proyModal';
 import ReactStars from 'react-stars';
+import axios from 'axios';
+
 
 
 
@@ -10,29 +12,45 @@ class Proyecto extends React.Component {
 
   constructor(props){
     super(props);
-    console.log(props.proyecto.comments);
+    var rating = 0;
+    if(props.proyecto.ratings){
+      rating=props.proyecto.ratings[0]
+    }
     this.state={
-      avgRating:props.proyecto.ratings[0],
+      avgRating:rating,
       comments:props.proyecto.comments,
       alert:false
     }
   }
 
   addRating(newRate){
-    var newAvgRate=5;//lamado a axio
-    this.setState({avgRating:newAvgRate});
-    console.log(newRate);
+    axios.post(process.env.BACK_URL+ "/ratings",{
+      "id":this.props.proyecto.id,
+      "rating":newRate
+    })
+    .then(response => {
+      console.log(response);
+      this.setState({avgRating:response.data.rating[0].avgRating});
+    })
+
   }
 
   saveComment(text){
     if(text.length<5){
       this.setState({alert:true});
     }else{
-      var newComm = [{text:"HOLEEEEEE"},{text:"que huboooo"}];//llamado a axio con text
-      this.setState({
-        comments: newComm,
-        alert:false
+      axios.post(process.env.BACK_URL+ "/comments",{
+        "project":this.props.proyecto.id,
+        "text":text
       })
+      .then(response => {
+        console.log(response);
+        this.setState({
+          comments: response.data,
+          alert:false
+        })
+      })
+
     }
   }
 
@@ -44,7 +62,7 @@ class Proyecto extends React.Component {
           <div className = "">
             <div className = "row text-center">
               <h2>{this.props.proyecto.name}</h2>
-              <h5>{this.props.proyecto.author}</h5>
+              <h5>{this.props.proyecto.owner}</h5>
             </div>
 
             {this.props.proyecto.summary &&
@@ -53,18 +71,19 @@ class Proyecto extends React.Component {
               </div>
             }
             <div className = "row text-center">
-              <a href={this.props.proyecto.repo.url} target="_blank"><h5><i className="fa fa-github fa-2x" aria-hidden="true"></i> Repo</h5></a>
+              <a href={this.props.proyecto.url} target="_blank"><h5><i className="fa fa-github fa-2x" aria-hidden="true"></i> Repo</h5></a>
             </div>
-
             <div className="row">
               <div className ="col-md-4">
-                <h6><i className="fa fa-code-fork fa-lg" aria-hidden="true"></i> Forks: {this.props.proyecto.repo.forks}</h6>
+                <h6><i className="fa fa-code-fork fa-lg" aria-hidden="true"></i>  Forks: {this.props.proyecto.repo.forks}</h6>
               </div>
               <div className ="col-md-4">
                 <h6><i className="fa fa-star fa-lg" aria-hidden="true"></i> Stars: {this.props.proyecto.repo.stars}</h6>
               </div>
               <div className ="col-md-4">
-                <h6><i className="fa fa-eye fa-lg" aria-hidden="true"></i> Watches: {this.props.proyecto.repo.watches}</h6>
+                <h6>
+                  <i className="fa fa-eye fa-lg" aria-hidden="true"></i> Watches: {this.props.proyecto.repo.watchers}
+                </h6>
               </div>
             </div>
             <div className="row text-center">

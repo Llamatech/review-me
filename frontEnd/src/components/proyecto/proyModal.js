@@ -34,7 +34,7 @@ class PModal extends React.Component {
 
         <Modal show={this.state.showModal} onHide={this.modalClose.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title><h2>{this.props.proyecto.name}  <small><a href={"https://github.com/"+this.props.proyecto.author}>{this.props.proyecto.author}</a></small></h2></Modal.Title>
+            <Modal.Title><h2>{this.props.proyecto.name}  <small><a href={"https://github.com/"+this.props.proyecto.owner}>{this.props.proyecto.owner}</a></small></h2></Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <h3>Description</h3>
@@ -51,7 +51,7 @@ class PModal extends React.Component {
                   <h6><i className="fa fa-star fa-lg" aria-hidden="true"></i> Stars: {this.props.proyecto.repo.stars}</h6>
                 </div>
                 <div className ="col-md-3">
-                  <h6><i className="fa fa-eye fa-lg" aria-hidden="true"></i> Watches: {this.props.proyecto.repo.watches}</h6>
+                  <h6><i className="fa fa-eye fa-lg" aria-hidden="true"></i> Watches: {this.props.proyecto.repo.watchers}</h6>
                 </div>
                 <div className ="col-md-3">
                   <h6><i className="fa fa-exclamation-circle fa-lg" aria-hidden="true"></i> Issues: {this.props.proyecto.repo.issues}</h6>

@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
 import Proyecto from './proyecto';
+import {chunk} from 'lodash'
 
 class Proyectos extends Component{
+
+  organize(){
+    var arr=[]
+    this.props.proyectos.map((proyecto)=>{
+      arr.push(<div className="col-md-4"><Proyecto key={proyecto.id} proyecto={proyecto}/></div>);
+    })
+    var chu = chunk(arr,3);
+    return chu;
+  }
+
   render(){
     if (this.props.proyectos){
       return(
@@ -13,18 +24,21 @@ class Proyectos extends Component{
             <hr></hr>
           </div>
 
-          {this.props.proyectos.map((proyecto)=>{
-            return(
-              <div className="col-md-4">
-                <Proyecto key={proyecto.id} proyecto={proyecto}/>
-              </div>
-            )
+          {this.organize().map((grupo,index)=>{
+            console.log(grupo);
+              return(
+                <div className="row">
+                  {grupo}
+                </div>
+              )
+
+
           })}
         </div>
       )
     }
     else{
-      <div></div>
+      return(<div></div>);
     }
 
   }
