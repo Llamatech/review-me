@@ -35,26 +35,14 @@ module.exports = {
     contentBase: './'
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-      },
-      sourceMap: false
-    }),
     new webpack.DefinePlugin({
       'process.env':{
-        BACK_URL: '"'+process.env.BACK_URL+'"'
+        BACK_URL: '"'+process.env.BACK_URL+'"',
+        'NODE_ENV': JSON.stringify('production')
       }
-    })
+    }),
+    new webpack.optimize.DedupePlugin(), //dedupe similar code
+    new webpack.optimize.UglifyJsPlugin(), //minify everything
+    new webpack.optimize.AggressiveMergingPlugin()//Merge chunks
   ]
 };
