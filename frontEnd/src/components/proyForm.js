@@ -11,7 +11,9 @@ class PForm extends React.Component {
     this.state={
       url:'',
       description:'',
-      collaborator:''
+      collaborator:'',
+      errorAlert:false,
+      goodAlert:false
     }
   }
 
@@ -30,25 +32,36 @@ class PForm extends React.Component {
   }
 
   handleChangeUrl(e) {
-    this.setState({ url: e.target.value });
+    this.setState({ url: e.target.value,
+      errorAlert:false,
+      goodAlert:false });
   }
   handleChangeDesc(e) {
-    this.setState({ description: e.target.value });
+    this.setState({ description: e.target.value,
+      errorAlert:false,
+      goodAlert:false });
   }
   handleChangeCollab(e) {
-    this.setState({ collaborator: e.target.value });
+    this.setState({
+      collaborator: e.target.value,
+      errorAlert:false,
+      goodAlert:false });
   }
 
   addProject(evt){
     evt.preventDefault();
-    axios.post(process.env.BACK_URL+ "/projects",{
-      "url":this.state.url,
-      "description":this.state.description,
-      "collaborator":this.state.collaborator
-    })
-    .then(response => {
-      console.log(response);
-    })
+    if(this.checkGithub()==="success")
+    {
+      this.props.addProject({
+        "url":this.state.url,
+        "description":this.state.description,
+        "collaborator":this.state.collaborator
+      })
+      this.setState({goodAlert:true});
+    }
+    else{
+      this.setState({errorAlert:true});
+    }
   }
 
   render () {
@@ -74,6 +87,7 @@ class PForm extends React.Component {
                 <FormControl.Feedback />
                   <HelpBlock>For the moment, we are only working with github repositories. In the future, we'd love to add support for other repository
                   sites, but for now, please make sure your repo link matches the one given as example.</HelpBlock>
+
               </FormGroup>
               <FormGroup controlId="formControlsTextarea">
                 <ControlLabel>Description</ControlLabel>
@@ -92,6 +106,16 @@ class PForm extends React.Component {
                   placeholder="Well versed in java, with some knowledge of javascript and a passion for leaning things on the go"
                   value= {this.state.collaborator} onChange={this.handleChangeCollab.bind(this)}/>
               </FormGroup>
+              {this.state.errorAlert &&
+                  <div className="alert alert-danger" role="alert">
+                    <strong>Warning!</strong> Please make sure that your repo link is correct
+                  </div>
+                }
+              {this.state.goodAlert &&
+                  <div className="alert alert-success" role="alert">
+                    <strong>Great!</strong> Your project has been added
+                  </div>
+                }
               <FormGroup>
                   <Button type="submit">
                     Send

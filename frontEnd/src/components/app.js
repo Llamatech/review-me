@@ -17,6 +17,7 @@ class App extends Component {
   }
 
   buscarProyectos(term){
+
     axios.get(process.env.BACK_URL+ "/projects",{
       params:{
         "term":term
@@ -31,6 +32,7 @@ class App extends Component {
   }
 
   getProyectos(){
+    console.log(process.env.BACK_URL)
     axios.get(process.env.BACK_URL+ "/projects")
     .then(response => {
       console.log(response);
@@ -40,10 +42,20 @@ class App extends Component {
     })
   }
 
+  addProject(project){
+    axios.post(process.env.BACK_URL+ "/projects",project)
+    .then(response => {
+      console.log(response);
+      this.state.proyectos.push(response.data.project.ops[0]);
+      this.setState({proyectos:this.state.proyectos});
+      console.log(this.state.proyectos);
+    })
+  }
+
   render(){
     return(
       <div>
-        <Navib buscar={this.buscarProyectos.bind(this)}/>
+        <Navib buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)}/>
         <About/>
         <Proyectos proyectos={this.state.proyectos}/>
       </div>

@@ -48,7 +48,7 @@ class Navib extends React.Component {
       </Navbar.Form>
           </Navbar.Collapse>
         </Navbar>
-        <PForm show={this.state.showModal} modalClose={this.modalClose.bind(this)}></PForm>
+        <PForm show={this.state.showModal} modalClose={this.modalClose.bind(this)} addProject={this.props.addProject}></PForm>
       </div>
     )
   }
