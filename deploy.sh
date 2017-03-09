@@ -13,7 +13,7 @@ cd backEnd
 printf "\nDownloading dependencies\n"
 
 npm install
-nohup npm start $POE > "$POE.out" 2> "$POE.err" &
+nohup npm start > "$POE.out" 2> "$POE.err" &
 
 printf "\nProcess PID: "
 echo $!
