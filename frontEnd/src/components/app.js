@@ -31,6 +31,16 @@ class App extends Component {
     })
   }
 
+  buscarAdv(terms){
+    console.log(terms);
+    axios.get(process.env.BACK_URL+"/projects",{params:terms})
+    .then(response=>{
+      this.setState({
+        proyectos: response.data.projects
+      })
+    })
+  }
+
   getProyectos(){
     console.log(process.env.BACK_URL)
     axios.get(process.env.BACK_URL+ "/projects")
@@ -55,9 +65,9 @@ class App extends Component {
   render(){
     return(
       <div>
-        <Navib buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)}/>
+        <Navib buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)}/>
         <About/>
-        <Proyectos proyectos={this.state.proyectos}/>
+        <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.state.proyectos}/>
       </div>
     )
 

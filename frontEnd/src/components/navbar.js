@@ -11,7 +11,8 @@ class Navib extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      showModal:false
+      showModal:false,
+      showSearch:false
     }
   }
 
@@ -21,6 +22,14 @@ class Navib extends React.Component {
 
   modalOpen() {
     this.setState({ showModal: true });
+  }
+
+  searchClose() {
+    this.setState({ showSearch: false });
+  }
+
+  searchOpen() {
+    this.setState({ showSearch: true });
   }
 
   render () {
@@ -40,12 +49,12 @@ class Navib extends React.Component {
               </NavItem>
             </Nav>
             <Navbar.Form pullLeft>
-        <FormGroup>
-          <FormControl type="text" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
-        </FormGroup>
-        {' '}
-        <Button type="submit">Submit</Button>
-      </Navbar.Form>
+              <FormGroup>
+                <FormControl type="text" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
+              </FormGroup>
+              {' '}
+              <Button type="submit">Submit</Button>
+            </Navbar.Form>
           </Navbar.Collapse>
         </Navbar>
         <PForm show={this.state.showModal} modalClose={this.modalClose.bind(this)} addProject={this.props.addProject}></PForm>
