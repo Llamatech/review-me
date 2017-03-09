@@ -42,6 +42,15 @@ div.about{
   font-size: 1.3em;
 }
 
+.minimum label {
+    font-weight: normal !important;
+    padding:12px;
+}
+
+.minimum input {
+   width: 30%;
+   float: right;
+}
 
 /*
 {

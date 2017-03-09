@@ -55,6 +55,25 @@ exports.list = (req, res) => {
             }
         });
     }
+
+    var stars = (req.query.stars !== undefined && req.query.stars !== '') ? parseFloat(req.query.stars) : 0
+    var forks = (req.query.forks !== undefined && req.query.forks !== '') ? parseFloat(req.query.forks) : 0
+    var issues = (req.query.issues !== undefined && req.query.issues !== '') ? parseFloat(req.query.issues) : 0
+    var watchers = (req.query.watchers !== undefined && req.query.watchers !== '') ? parseFloat(req.query.watchers) : 0
+
+    query.push({
+        $match: {
+            $and:[
+                    {"repo.stars": {$gte: stars}},
+                    {"repo.forks": {$gte: forks}},
+                    {"repo.watchers": {$gte: watchers}},
+                    {"repo.issues": {$gte: issues}}
+            ]
+        }
+    });
+
+    console.log(query);
+
     mongo.aggregate('projects', query, (docs) => {
         res.send(JSON.stringify({ projects: docs }));
     });
@@ -117,6 +136,7 @@ exports.create = (req, res) => {
             project.repo.stars = info.stargazers_count;
             project.repo.language = info.language;
             project.repo.issues = info.open_issues;
+            project.comments = []
 
             console.log(project);
             mongo.insert('projects', project, (doc) => {
