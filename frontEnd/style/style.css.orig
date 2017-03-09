@@ -42,6 +42,16 @@ div.about{
   font-size: 1.3em;
 }
 
+<<<<<<< HEAD
+.minimum label {
+    font-weight: normal !important;
+    padding:12px;
+}
+
+.minimum input {
+   width: 30%;
+   float: right;
+=======
 .minimum label{
   padding:12px;
   font-weight: normal !important;
@@ -50,6 +60,7 @@ div.about{
 .minimum input{
   width: 30%;
   float:right;
+>>>>>>> a6e4d361dbfe7a54160560d2e6a699edfb544224
 }
 
 .linea{

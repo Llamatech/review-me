@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import Proyecto from './proyecto';
 import {chunk} from 'lodash'
+<<<<<<< HEAD
+import Search from './search'
+=======
 import AdvSearch from './search'
+>>>>>>> a6e4d361dbfe7a54160560d2e6a699edfb544224
 
 class Proyectos extends Component{
 
@@ -24,7 +28,12 @@ class Proyectos extends Component{
             </h1>
             <hr></hr>
           </div>
+<<<<<<< HEAD
+          <Search buscarAdv={this.props.buscarAdv}></Search>
+
+=======
           <AdvSearch buscarAdv={this.props.buscarAdv}></AdvSearch>
+>>>>>>> a6e4d361dbfe7a54160560d2e6a699edfb544224
           {this.organize().map((grupo,index)=>{
             console.log(grupo);
               return(
