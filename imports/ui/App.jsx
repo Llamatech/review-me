@@ -12,9 +12,11 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-
+    var user = Meteor.user();
+    console.log(user);
     this.state = {
-      proyectos: []
+      proyectos: [],
+      user:{'username':'Guest'}
     }
   }
 
@@ -61,11 +63,26 @@ class App extends Component {
     Projects.insert(project)
   }
 
+  login() {
+    console.log("Login with Github");
+    options = {
+      requestPermissions: [ 'email' ]
+    }
+    Meteor['loginWithGithub'](options, (err) => {
+        console.log(err);
+        var user = Meteor.user();
+        console.log(user.services.github.username);
+        this.setState({
+          user: user.services.github
+        })
+    });
+  }
+
   render(){
     return(
       <div>
         {this.getProyectos()}
-        <Navib buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)}/>
+        <Navib login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
         <About/>
         <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectos}/>
       </div>

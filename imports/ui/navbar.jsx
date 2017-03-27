@@ -32,6 +32,7 @@ class Navib extends React.Component {
     this.setState({ showSearch: true });
   }
 
+
   render () {
     return(
       <div>
@@ -54,6 +55,10 @@ class Navib extends React.Component {
               </FormGroup>
               {' '}
               <Button type="submit">Submit</Button>
+              <Button type="button" onClick={() => this.props.login()}><i className="fa fa-github"></i> Login with Github</Button>
+            </Navbar.Form>
+            <Navbar.Form pullLeft>
+              <Button type="button">{this.props.user.username}</Button>
             </Navbar.Form>
           </Navbar.Collapse>
         </Navbar>

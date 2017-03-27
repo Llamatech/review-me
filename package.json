@@ -2,11 +2,15 @@
   "name": "review-me",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor --settings settings-development.json",
+    "staging": "xervo env set METEOR_SETTINGS \"$(cat settings-staging.json)\" -p 'App - Staging' && xervo deploy -f -p 'App - Staging'",
+    "production": "xervo env set METEOR_SETTINGS \"$(cat settings-production.json)\" -p 'App - Production' && xervo deploy -f -p 'App - Production'"
   },
   "dependencies": {
     "axios": "^0.15.3",
     "babel-runtime": "^6.20.0",
+    "bcrypt": "^1.0.2",
+    "faker": "^4.1.0",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",
     "react": "^15.4.2",

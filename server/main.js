@@ -4,4 +4,5 @@ import '../imports/api/projects.js';
 
 Meteor.startup(() => {
   // code to run on server at startup
+    Modules.server.startup()
 });
