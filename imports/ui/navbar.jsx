@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Navbar, NavItem, NavDropdown, MenuItem, Nav, FormGroup, FormControl, Button } from 'react-bootstrap';
 import PForm from './proyForm'
 
+
 class Navib extends React.Component {
   buscar(term){
     this.props.buscar(term);

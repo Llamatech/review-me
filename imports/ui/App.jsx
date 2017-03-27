@@ -12,8 +12,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    var user = Meteor.user();
-    console.log(user);
+
     this.state = {
       proyectos: [],
       user:{'username':'Guest'}
@@ -48,20 +47,33 @@ class App extends Component {
   getProyectos(){
     console.log(this.props.proyectos)
     console.log(this.state.proyectos)
-//    this.setState({proyectos:this.state.projects})
-    // console.log(process.env.BACK_URL)
-    // axios.get(process.env.BACK_URL+ "/projects")
-    // .then(response => {
-    //   console.log(response);
-    //   this.setState({
-    //     proyectos: response.data.projects
-    //   })
-    // })
+  }
+
+  componentDidMount() {
+    Meteor.call('getUserData', (err, res) => {
+      if(err) {
+        alert(err)
+      }
+      else {
+        console.log(res);
+        this.setState({
+          user: res.services.github
+        });
+      }
+    })
+  }
+
+  getUser() {
+    if(this.props.user)
+    {
+      console.log(this.props.user);
+    }
   }
 
   addProject(project){
     Projects.insert(project)
   }
+
 
   login() {
     console.log("Login with Github");
@@ -93,12 +105,16 @@ class App extends Component {
 
 App.propTypes = {
   proyectos: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default createContainer(() => {
+  // Meteor.subscribe('getUserData');
   var a = {
     proyectos: Projects.find({}).fetch(),
+    user: Meteor.users.findOne({_id:Meteor.userId()})
   };
+  // console.log("Who the hell are you?");
   console.log(a);
   return a;
 }, App);
