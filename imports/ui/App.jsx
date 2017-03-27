@@ -50,21 +50,13 @@ class App extends Component {
     console.log(this.props.proyectos)
     console.log(this.state.proyectos)
     this.setState({proyectos:this.props.projects})
-//    this.setState({proyectos:this.state.projects})
-    // console.log(process.env.BACK_URL)
-    // axios.get(process.env.BACK_URL+ "/projects")
-    // .then(response => {
-    //   console.log(response);
-    //   this.setState({
-    //     proyectos: response.data.projects
-    //   })
-    // })
   }
 
   logout() {
-      Meteor.logout();
-      this.setState({
-          user:{'username':'Guest'}
+      Meteor.logout(() =>{
+        this.setState({
+            user:{'username':'Guest'}
+        });
       });
   }
 
