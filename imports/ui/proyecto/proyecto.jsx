@@ -7,7 +7,6 @@ import axios from 'axios';
 
 
 
-//{this.props.proyecto.LOQUEDESEAS}
 class Proyecto extends React.Component {
 
   constructor(props){
@@ -19,37 +18,40 @@ class Proyecto extends React.Component {
     this.state={
       avgRating:rating,
       comments:props.proyecto.comments,
-      alert:false
+      alert:false,
+      alertText:""
     }
   }
 
   addRating(newRate){
-    axios.post(process.env.BACK_URL+ "/ratings",{
-      "id":this.props.proyecto.id,
-      "rating":newRate
-    })
-    .then(response => {
-      console.log(response);
-      this.setState({avgRating:response.data.rating[0].avgRating});
-    })
+    Meteor.call('projects.addRating', this.props.proyecto._id, newRate, (err,res)=>{
+      this.setState({
+        avgRating: this.props.proyecto.ratings[0]
+            });
+    });
 
   }
 
   saveComment(text){
     if(text.length<5){
-      this.setState({alert:true});
-    }else{
-      axios.post(process.env.BACK_URL+ "/comments",{
-        "project":this.props.proyecto.id,
-        "text":text
-      })
-      .then(response => {
-        console.log(response);
+      this.setState({
+        alert:true,
+        alertText:"Comments should be longer than 5 characters!"
+      });
+    }
+    else if(!Meteor.user()){
+      this.setState({
+        alert:true,
+        alertText:"You have to be logged in to comment"
+      });
+    }
+    else{
+      Meteor.call('projects.addComment', this.props.proyecto._id, text, (err,res)=>{
         this.setState({
-          comments: response.data,
+          comments: this.props.proyecto.comments,
           alert:false
         })
-      })
+      });
 
     }
   }
@@ -91,7 +93,7 @@ class Proyecto extends React.Component {
             </div>
             <div className="row text-center">
               <br></br>
-              <PModal alert={this.state.alert} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
+              <PModal alert={this.state.alert} alertText={this.state.alertText} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
             </div>
           </div>
         </Well>

@@ -26,7 +26,6 @@ class Proyectos extends Component{
           </div>
           <AdvSearch buscarAdv={this.props.buscarAdv}></AdvSearch>
           {this.organize().map((grupo,index)=>{
-            console.log(grupo);
               return(
                 <div className="row">
                   {grupo}

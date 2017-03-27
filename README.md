@@ -28,4 +28,4 @@ To deploy this application, you need to install meteor and node.js. After satisf
 meteor npm install
 npm run
 ```
-See it in action at: [](http://localhost:3000)
+See it in action at: http://localhost:3000
