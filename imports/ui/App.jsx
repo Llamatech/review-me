@@ -58,7 +58,14 @@ class App extends Component {
   }
 
   addProject(project){
-    Projects.insert(project)
+    Meteor.call("github.search", project.url , (err, res) => {
+      if (err) { console.log(err); }
+
+      console.log("made it!");
+      console.log(res);
+      //this.setState({walmartResults: res});
+    });
+    // Projects.insert(project)
   }
 
   render(){
