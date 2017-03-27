@@ -30,11 +30,11 @@ div.about{
 
 
 
-.newProj a:hover{
+.newProj >a:hover{
   color:#98978b !important;
 }
 
-.newProj a{
+.newProj >a{
   color:#FFFFFF !important;
 
 }

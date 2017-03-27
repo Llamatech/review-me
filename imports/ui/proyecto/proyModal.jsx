@@ -87,7 +87,7 @@ class PModal extends React.Component {
               <h4>Past reviews</h4>
               <div className="row">
 
-                <Comments alert={this.props.alert} comments={this.props.comments} saveComment={this.props.saveComment}/>
+                <Comments alert={this.props.alert} alertText={this.props.alertText} comments={this.props.comments} saveComment={this.props.saveComment}/>
               </div>
 
           </Modal.Body>

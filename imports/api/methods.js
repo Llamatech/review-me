@@ -5,7 +5,6 @@ import axios from 'axios';
 
 Meteor.methods({
 	"github.search"(githubUrl) {
-    console.log("what what")
     var url = require('url-parse');
 
     var urlObj = url(githubUrl, true);
@@ -23,9 +22,19 @@ Meteor.methods({
       }
     };
 
-    var a = axios.get(apiUrl,config);
+    var a = axios.get(apiUrl,config)
 
-    console.log(a);
+    // .then(response=>{
+    //   console.log("giiit");
+    //   console.log(response)
+    // }).catch(function (error) {
+    //   console.log("que putitas");
+    //   console.log(error);
+    // });
+
+
+    return a;
+    // console.log(a);
 
 	}
 });

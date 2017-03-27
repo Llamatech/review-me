@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Navbar, NavItem, NavDropdown, MenuItem, Nav, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Navbar, NavItem, NavDropdown, MenuItem, Nav, FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import PForm from './proyForm'
 
 class Navib extends React.Component {
@@ -12,7 +12,8 @@ class Navib extends React.Component {
     super(props);
     this.state={
       showModal:false,
-      showSearch:false
+      showSearch:false,
+      alert:false
     }
   }
 
@@ -21,7 +22,16 @@ class Navib extends React.Component {
   }
 
   modalOpen() {
-    this.setState({ showModal: true });
+    if(Meteor.user()){
+      this.setState({ showModal: true });
+    }
+    else{
+      this.setState({alert:true});
+    }
+  }
+
+  close(){
+      this.setState({alert:false});
   }
 
   searchClose() {
@@ -54,15 +64,28 @@ class Navib extends React.Component {
                 <FormControl type="text" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
               </FormGroup>
               {' '}
-              <Button type="submit">Submit</Button>
-              <Button type="button" onClick={() => this.props.login()}><i className="fa fa-github"></i> Login with Github</Button>
+              {Meteor.user()?null:<Button type="button" onClick={() => this.props.login()}><i className="fa fa-github"></i> Login with Github</Button>}
             </Navbar.Form>
-            <Navbar.Form pullLeft>
-              <Button type="button">{this.props.user.username}</Button>
-            </Navbar.Form>
+            {Meteor.user()?
+            <Nav>
+            <NavDropdown title={Meteor.user().services.github.username} id="basic-nav-dropdown" className="newProj">
+              <MenuItem>Action</MenuItem>
+              <MenuItem>Another action</MenuItem>
+              <MenuItem>Something else here</MenuItem>
+              <MenuItem divider />
+              <MenuItem>Logout</MenuItem>
+            </NavDropdown>
+          </Nav>:null
+          }
           </Navbar.Collapse>
         </Navbar>
         <PForm show={this.state.showModal} modalClose={this.modalClose.bind(this)} addProject={this.props.addProject}></PForm>
+        <Modal show={this.state.alert} onHide={()=>this.close()}>
+          <Modal.Header closeButton>
+            You must be logged in to add a new project
+          </Modal.Header>
+
+        </Modal>
       </div>
     )
   }

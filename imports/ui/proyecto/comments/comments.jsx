@@ -28,6 +28,8 @@ class Comments extends React.Component {
             </div>
           )
         })}
+        {Meteor.user()?
+          <div>
         <div className="col-md-12">
         <h4>   Give a constructive review!</h4>
         </div>
@@ -35,7 +37,7 @@ class Comments extends React.Component {
           <div className="col-md-10 offset-md-2">
             {this.props.alert &&
               <div className="alert alert-danger" role="alert">
-                <strong>Warning!</strong> Comments should be longer than 5 characters!
+                <strong>Warning!</strong> {this.props.alertText}
               </div>
             }
           </div>
@@ -51,6 +53,9 @@ class Comments extends React.Component {
               <button type="submit" className="btn btn-default btn-sm">Submit</button>
             </form>
         </div>
+        </div>
+        :null
+      }
       </div>
     )
   }
