@@ -23,24 +23,12 @@ class App extends Component {
   buscarProyectos(t){
     this.setState({term:t});
     Session.set('term', t);
-
-    Meteor.call('projects.search', t, (err, res)=>{
-      console.log(res);
-      this.setState({
-        proyectos: []
-      });
-      console.log(this.state.proyectos)
-    });
   }
 
   buscarAdv(terms){
     console.log(terms);
-    axios.get(process.env.BACK_URL+"/projects",{params:terms})
-    .then(response=>{
-      this.setState({
-        proyectos: response.data.projects
-      })
-    })
+    Session.set('filters',terms);
+
   }
 
   getProyectos(){
@@ -151,10 +139,7 @@ class App extends Component {
 
         <Navib login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
         <About/>
-          {this.help()}
-          {console.log(this.state.proyectos)}
-          {console.log(this.props.proyectos)}
-        <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.state.proyectos}/>
+        <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
 
       </div>
 
@@ -168,11 +153,44 @@ App.propTypes = {
 };
 
 export default createContainer(() => {
-  console.log(typeof Session!=='undefined'?Session.get('selectedCategory'):"not yet");
+  console.log(Session.get('term'));
+  var sTerm = Session.get('term')?Session.get('term'):'';
+  var stars=0;
+  var forks=0;
+  var issues=0;
+  var watchers=0;
+
+  if(Session.get('filters')){
+    stars =Session.get('filters').stars ? Number(Session.get('filters').stars) : 0;
+    forks = Session.get('filters').forks ? Number(Session.get('filters').forks) : 0;
+    issues = Session.get('filters').issues ? Number(Session.get('filters').issues) : 0;
+    watchers = Session.get('filters').watchers ? Number(Session.get('filters').watchers) : 0;
+  }
+
+  var query =
+  {$and:[
+    {
+      $or: [
+          {name:{'$regex':'\X*'+sTerm+'\X*'}},
+          {summary:{'$regex':'\X*'+sTerm+'\X*'}},
+          {owner:{'$regex':'\X*'+sTerm+'\X*'}}
+      ]
+    },
+    {
+      $and:
+      [
+        {"repo.stars": {$gte:stars}},
+        {"repo.forks": {$gte:forks}},
+        {"repo.watchers": {$gte:watchers}},
+        {"repo.issues": {$gte:issues}}
+      ]
+    }
+  ]}
+
+    console.log(query);
   var a = {
-    proyectos: Projects.find(
-      {}
-    ).fetch(),
+    proyectos: Projects.find({}).fetch(),
+    proyectosActuales: Projects.find(query).fetch()
   };
   console.log(a);
   return a;
