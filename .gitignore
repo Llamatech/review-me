@@ -36,3 +36,8 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Meteor settings file
+settings-development.json
+settings-production.json
+
