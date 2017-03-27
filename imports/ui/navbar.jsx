@@ -74,7 +74,7 @@ class Navib extends React.Component {
               <MenuItem>Another action</MenuItem>
               <MenuItem>Something else here</MenuItem>
               <MenuItem divider />
-              <MenuItem>Logout</MenuItem>
+              <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
             </NavDropdown>
           </Nav>:null
           }
