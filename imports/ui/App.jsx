@@ -12,6 +12,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       proyectos: this.props.proyectos,
       user:{'username':'Guest'},
@@ -31,6 +32,20 @@ class App extends Component {
 
   }
 
+  componentDidMount() {
+    Meteor.call('getUserData', (err, res) => {
+      if(err) {
+        alert(err)
+      }
+      else {
+        console.log(res);
+        this.setState({
+          user: res.services.github
+        });
+      }
+    })
+  }
+
   getProyectos(){
     console.log(this.props.proyectos)
     console.log(this.state.proyectos)
@@ -44,6 +59,13 @@ class App extends Component {
     //     proyectos: response.data.projects
     //   })
     // })
+  }
+
+  logout() {
+      Meteor.logout();
+      this.setState({
+          user:{'username':'Guest'}
+      });
   }
 
   addProject(project){
@@ -105,7 +127,6 @@ class App extends Component {
     options = {
       requestPermissions: [ 'email' ]
     }
-    console.log(Meteor.user())
     Meteor['loginWithGithub'](options, (err) => {
         console.log(err);
         var user = Meteor.user();
@@ -137,7 +158,7 @@ class App extends Component {
     return(
       <div>
 
-        <Navib login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
+        <Navib logout={this.logout.bind(this)} login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
         <About/>
         <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
 
