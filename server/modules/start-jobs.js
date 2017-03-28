@@ -16,9 +16,9 @@ let startjobs = () => {
         // GlobalProjects = new Mongo.Collection('projects');
         var projects = GlobalProjects.find({}).fetch();
         var apiEndpoint = 'https://api.github.com/repos/';
-        for(var j in projects)
+        for(var j = 0; j < projects.length; j++)
         {
-            var project = projects[j];
+            let project = projects[j];
             var url = apiEndpoint + project.owner + '/' + project.name;
             console.log(url);
             HTTP.get(url, {'headers':{'User-Agent':'request'}}, (err, resp) => {
