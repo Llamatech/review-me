@@ -86,7 +86,14 @@ class PModal extends React.Component {
               <h3>Rate this project</h3>
               {console.log(tooltip)}
 
-              <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#93c54b'} value={this.props.avgRating} />
+              {
+                Meteor.user()?
+                <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#93c54b'} value={this.props.avgRating} />
+                :
+                <ReactStars count={5} edit={false} size={24} color2={'#93c54b'} value={this.props.avgRating} />
+              }
+
+
 
               <h4>Past reviews</h4>
               <div className="row">

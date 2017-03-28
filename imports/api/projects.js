@@ -52,9 +52,11 @@ Meteor.methods({
     Projects.update(projId,{$pull: {comments:{"_id":commId}}});
     console.log(Projects.find(projId).fetch());
     return Projects.find(projId).fetch()[0].comments;
-    // Projects.find(projId,(res)=>{
-    //   console.log(res)
-    //   // return res.comments;
-    // })
+
+  },
+  'projects.eraseProject'(projId) {
+
+    Projects.remove(projId)
+
   },
 });

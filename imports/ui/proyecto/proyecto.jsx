@@ -115,6 +115,15 @@ class Proyecto extends React.Component {
               <br></br>
               <PModal eraseComment={this.eraseComment.bind(this)} alert={this.state.alert} alertText={this.state.alertText} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
             </div>
+            {
+              Meteor.user()&&Meteor.user().services.github.username===this.props.proyecto.user?
+              <div className = "row text-center">
+                <br></br>
+                <Button bsSize="sm" onClick={()=>this.props.eraseProject(this.props.proyecto._id)}>Delete this project</Button>
+              </div>
+              :null
+            }
+
           </div>
         </Well>
       </div>

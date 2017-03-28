@@ -24,10 +24,8 @@ class About extends React.Component {
           rate us, and collaborate with us!
       </p>
       <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+
+
       </div>
     )
   }

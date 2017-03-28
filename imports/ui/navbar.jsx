@@ -50,7 +50,7 @@ class Navib extends React.Component {
         <Navbar collapseOnSelect className="navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#"><img src="https://68.media.tumblr.com/024cf54439d1a61124ce6ab1436174c2/tumblr_omb3fcuptx1qh8q8mo1_400.png" width="10px" style={{float:"left","marginRight":"5px"}}></img>   Review Me</a>
+              <a onClick={()=>this.props.backHome()}><img src="https://68.media.tumblr.com/024cf54439d1a61124ce6ab1436174c2/tumblr_omb3fcuptx1qh8q8mo1_400.png" width="10px" style={{float:"left","marginRight":"5px"}}></img>   Review Me</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -70,9 +70,7 @@ class Navib extends React.Component {
             {Meteor.user()?
             <Nav>
             <NavDropdown title={Meteor.user().services.github.username} id="basic-nav-dropdown" className="newProj">
-              <MenuItem>Action</MenuItem>
-              <MenuItem>Another action</MenuItem>
-              <MenuItem>Something else here</MenuItem>
+              <MenuItem onClick={()=>this.props.openMine()}>My projects</MenuItem>
               <MenuItem divider />
               <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
             </NavDropdown>

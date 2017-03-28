@@ -9,7 +9,7 @@ body{
 }
 
 img.bomb{
-  width: 100px;
+  width: 70px;
 }
 
 div.about{
@@ -17,7 +17,7 @@ div.about{
 }
 
 .about h1{
-  font-size: 10em;
+  font-size: 8em;
 }
 
 .tit h1{

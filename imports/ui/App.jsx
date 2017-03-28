@@ -62,6 +62,10 @@ class App extends Component {
       });
   }
 
+  eraseProject(projId){
+    Meteor.call('projects.eraseProject',projId);
+  }
+
   addProject(project){
     var url = require('url-parse');
 
@@ -132,11 +136,14 @@ class App extends Component {
   }
 
   openMine(){
-    Session.set('mine':true)
+    this.setState({mine:true});
+    Session.set('mine',true);
+    console.log(Session.get('mine'));
   }
 
   backHome(){
-    Session.set('mine':false)
+    this.setState({mine:false});
+    Session.set('mine',false)
   }
 
   help(){
@@ -159,11 +166,12 @@ class App extends Component {
   render(){
     return(
       <div>
-
-        <Navib logout={this.logout.bind(this)} login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
-        <About/>
-        <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
-
+        <div className="col-md-1"></div>
+        <div className="col-md-10">
+        <Navib openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} logout={this.logout.bind(this)} login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
+        {!this.state.mine?<About/>:null}
+        <Proyectos eraseProject={this.eraseProject.bind(this)} openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} mine={this.state.mine} buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
+        </div>
 
       </div>
 
@@ -177,15 +185,15 @@ App.propTypes = {
 };
 
 export default createContainer(() => {
-  console.log(Session.get('term'));
   var sTerm = Session.get('term')?Session.get('term'):'';
   var stars=0;
   var forks=0;
   var issues=0;
   var watchers=0;
 
-  var user=Session.get('mine')?Meteor.user().services.github.username:'';
-
+  console.log(Session.get('mine'));
+  var u=Meteor.user()&&Session.get('mine')?Meteor.user().services.github.username:'';
+  console.log(u);
 
   if(Session.get('filters')){
     stars =Session.get('filters').stars ? Number(Session.get('filters').stars) : 0;
@@ -200,7 +208,8 @@ export default createContainer(() => {
       $or: [
           {name:{'$regex':'\X*'+sTerm+'\X*'}},
           {summary:{'$regex':'\X*'+sTerm+'\X*'}},
-          {owner:{'$regex':'\X*'+sTerm+'\X*'}}
+          {owner:{'$regex':'\X*'+sTerm+'\X*'}},
+          {description:{'$regex':'\X*'+sTerm+'\X*'}}
       ]
     },
     {
@@ -210,7 +219,7 @@ export default createContainer(() => {
         {"repo.forks": {$gte:forks}},
         {"repo.watchers": {$gte:watchers}},
         {"repo.issues": {$gte:issues}},
-        {owner:{'$regex':'\X*'+user+'\X*'}}
+        {user:{'$regex':'\X*'+u+'\X*'}}
       ]
     },
 
