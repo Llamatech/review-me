@@ -5,6 +5,7 @@ let startup = () => {
   _setBrowserPolicies();
   Modules.server.configureServices();
   Modules.server.generateAccounts();
+  Modules.server.startjobs();
 };
 
 var _setBrowserPolicies = () => {
