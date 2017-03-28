@@ -1,6 +1,9 @@
 # review-me
 The Internet Project Database - A system to review and rate FOSS projects hosted on Github
 
+## New on this version: v0.2
+Visit our [CHANGELOG](CHANGELOG.md) file to know more about our new features and improvements.
+
 
 ## Settings and configurations
 This app depends on Github API integration, which includes OAuth authentication, this means that to use this app, you must
