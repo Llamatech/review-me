@@ -78,13 +78,8 @@ class App extends Component {
     var apiEndpoint = 'https://api.github.com/repos/';
     var apiUrl = apiEndpoint+owner+"/"+repo;
     console.log(apiUrl);
-    var config = {
-      headers: {
-          'User-Agent': 'request'
-      }
-    };
 
-    axios.get(apiUrl,config).then(response=>{
+    axios.get(apiUrl,{}).then(response=>{
       console.log("giiit");
       console.log(response)
       var body = response.data;
