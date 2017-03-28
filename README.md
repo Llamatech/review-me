@@ -29,5 +29,10 @@ meteor npm install
 npm run
 ```
 See it in action at: http://localhost:3000
-Live action preview: http://review-me.margffoy-tuay.com
+
+* Live action preview: http://review-me.margffoy-tuay.com
+
+## Screenshot and sample image
+![alt tag](/img/sample.png)
+
 
