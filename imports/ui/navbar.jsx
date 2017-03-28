@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Navbar, NavItem, NavDropdown, MenuItem, Nav, FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import PForm from './proyForm'
 
+
 class Navib extends React.Component {
   buscar(term){
     this.props.buscar(term);
@@ -73,7 +74,7 @@ class Navib extends React.Component {
               <MenuItem>Another action</MenuItem>
               <MenuItem>Something else here</MenuItem>
               <MenuItem divider />
-              <MenuItem>Logout</MenuItem>
+              <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
             </NavDropdown>
           </Nav>:null
           }
