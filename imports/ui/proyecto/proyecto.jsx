@@ -24,12 +24,30 @@ class Proyecto extends React.Component {
   }
 
   addRating(newRate){
-    Meteor.call('projects.addRating', this.props.proyecto._id, newRate, (err,res)=>{
+    if(Meteor.user()){
+      Meteor.call('projects.addRating', this.props.proyecto._id, newRate, (err,res)=>{
+        this.setState({
+          avgRating: this.props.proyecto.ratings[0]
+              });
+      });
+    }
+    else{
       this.setState({
         avgRating: this.props.proyecto.ratings[0]
             });
-    });
+    }
 
+  }
+
+  eraseComment(commId){
+    console.log("no")
+    console.log(commId);
+    Meteor.call('projects.removeComment', this.props.proyecto._id, commId,(err, res)=>{
+      console.log(res);
+      this.setState({
+        comments:this.props.proyecto.comments
+      })
+    });
   }
 
   saveComment(text){
@@ -55,6 +73,8 @@ class Proyecto extends React.Component {
 
     }
   }
+
+
 
   render () {
     return(
@@ -93,7 +113,7 @@ class Proyecto extends React.Component {
             </div>
             <div className="row text-center">
               <br></br>
-              <PModal alert={this.state.alert} alertText={this.state.alertText} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
+              <PModal eraseComment={this.eraseComment.bind(this)} alert={this.state.alert} alertText={this.state.alertText} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
             </div>
           </div>
         </Well>

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Comments from './comments/comments';
 import ReactStars from 'react-stars';
 
@@ -26,6 +26,9 @@ class PModal extends React.Component {
 
 
   render () {
+    const tooltip = (
+      <Tooltip id="tooltip"><strong>You need to be logged in to leave a review</strong></Tooltip>
+    );
     return(
       <div>
 
@@ -81,13 +84,14 @@ class PModal extends React.Component {
               }
 
               <h3>Rate this project</h3>
+              {console.log(tooltip)}
 
               <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#93c54b'} value={this.props.avgRating} />
 
               <h4>Past reviews</h4>
               <div className="row">
 
-                <Comments alert={this.props.alert} alertText={this.props.alertText} comments={this.props.comments} saveComment={this.props.saveComment}/>
+                <Comments eraseComment={this.props.eraseComment} alert={this.props.alert} alertText={this.props.alertText} comments={this.props.comments} saveComment={this.props.saveComment}/>
               </div>
 
           </Modal.Body>

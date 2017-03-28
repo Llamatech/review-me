@@ -24,7 +24,7 @@ class Comments extends React.Component {
         {this.props.comments && this.props.comments.map(comentario=>{
           return(
             <div className="col-md-12">
-              <Comment text={comentario.text}/>
+              <Comment eraseComment={this.props.eraseComment} comentario={comentario} />
             </div>
           )
         })}

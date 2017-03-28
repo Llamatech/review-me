@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import ObjectId from 'bson-objectid';
 
 export const Projects = new Mongo.Collection('projects');
 
@@ -17,7 +18,7 @@ Meteor.methods({
     check(projId, String);
     check(comment, String);
 
-    Projects.update(projId, { $push: { comments: {"text":comment, "owner":Meteor.user().services.github.username} } });
+    Projects.update(projId, { $push: { comments: {"_id":ObjectId(),"text":comment, "owner":Meteor.user().services.github.username} } });
   },
   'projects.addRating'(projId, newRate) {
     check(projId, String);
@@ -44,5 +45,16 @@ Meteor.methods({
           ]
       }).fetch();
       return projs;
+  },
+  'projects.removeComment'(projId, commId) {
+
+
+    Projects.update(projId,{$pull: {comments:{"_id":commId}}});
+    console.log(Projects.find(projId).fetch());
+    return Projects.find(projId).fetch()[0].comments;
+    // Projects.find(projId,(res)=>{
+    //   console.log(res)
+    //   // return res.comments;
+    // })
   },
 });

@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       proyectos: this.props.proyectos,
       user:{'username':'Guest'},
-      term:""
+      term:"",
+      mine:false
     }
 
   }
@@ -35,15 +36,7 @@ class App extends Component {
     console.log(this.props.proyectos)
     console.log(this.state.proyectos)
     this.setState({proyectos:this.props.projects})
-//    this.setState({proyectos:this.state.projects})
-    // console.log(process.env.BACK_URL)
-    // axios.get(process.env.BACK_URL+ "/projects")
-    // .then(response => {
-    //   console.log(response);
-    //   this.setState({
-    //     proyectos: response.data.projects
-    //   })
-    // })
+
   }
 
   addProject(project){
@@ -116,6 +109,14 @@ class App extends Component {
     });
   }
 
+  openMine(){
+    Session.set('mine':true)
+  }
+
+  backHome(){
+    Session.set('mine':false)
+  }
+
   help(){
     this.state.proyectos=this.props.proyectos;
     console.log(this.props.proyectos);
@@ -140,6 +141,7 @@ class App extends Component {
         <Navib login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
         <About/>
         <Proyectos buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
+        
 
       </div>
 
@@ -159,6 +161,9 @@ export default createContainer(() => {
   var forks=0;
   var issues=0;
   var watchers=0;
+
+  var user=Session.get('mine')?Meteor.user().services.github.username:'';
+
 
   if(Session.get('filters')){
     stars =Session.get('filters').stars ? Number(Session.get('filters').stars) : 0;
@@ -182,9 +187,11 @@ export default createContainer(() => {
         {"repo.stars": {$gte:stars}},
         {"repo.forks": {$gte:forks}},
         {"repo.watchers": {$gte:watchers}},
-        {"repo.issues": {$gte:issues}}
+        {"repo.issues": {$gte:issues}},
+        {owner:{'$regex':'\X*'+user+'\X*'}}
       ]
-    }
+    },
+
   ]}
 
     console.log(query);
