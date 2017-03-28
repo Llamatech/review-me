@@ -13,7 +13,7 @@ printf "\nDeploying...\n"
 printf "\nDownloading dependencies\n"
 
 meteor npm install
-nohup npm start > "$POE.out" 2> "$POE.err" &
+nohup ROOT_URL=http://review-me.margffoy-tuay.com MONGO_URL=mongodb://127.0.0.1:27017 meteor --settings settings-development.json --port 3001 > "$POE.out" 2> "$POE.err" &
 
 printf "\nProcess PID: "
 echo $!
