@@ -83,23 +83,37 @@ class PModal extends React.Component {
                   </div>
               }
 
-              <h3>Rate this project</h3>
-              {console.log(tooltip)}
+
 
               {
                 Meteor.user()?
-                <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#93c54b'} value={this.props.avgRating} />
+                <div>
+                <h3>Rate this project</h3>
+                <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#637a00'} value={this.props.avgRating} />
+                </div>
                 :
-                <ReactStars count={5} edit={false} size={24} color2={'#93c54b'} value={this.props.avgRating} />
+                <div className="no">
+                <ReactStars  count={5} edit={false} size={24} color2={'#637a00'} value={this.props.avgRating} />
+                </div>
               }
 
 
+              {this.props.comments.length>0?<h4>Past reviews</h4>:null}
 
-              <h4>Past reviews</h4>
               <div className="row">
 
                 <Comments eraseComment={this.props.eraseComment} alert={this.props.alert} alertText={this.props.alertText} comments={this.props.comments} saveComment={this.props.saveComment}/>
               </div>
+
+              {
+                Meteor.user()?
+                <div>
+                </div>
+                :
+                <div>
+                  <p>To leave a review or rate this project, use your github user to <a onClick={()=>this.props.login()}>sign in!</a></p>
+                </div>
+              }
 
           </Modal.Body>
           <Modal.Footer>

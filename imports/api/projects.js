@@ -24,14 +24,29 @@ Meteor.methods({
   'projects.addRating'(projId, newRate) {
     check(projId, String);
 
+    var found = false;
+
+
+
     var proj = Projects.find(projId).fetch()[0];
 
     var rate = proj.ratings[0];
-    var n = proj.ratings[1];
-    var newR = (rate*n+newRate)/(n+1)
+    var history = proj.ratings[1];
+    console.log(history);
+
+    for (var i=0; i < history.length; i++) {
+        if (history[i].owner === Meteor.user().services.github.username) {
+            found=true;
+            proj.ratings[1][i].value=newRate;
+        }
+    }
+
+    var sum = history.reduce((a, b) => a + b.value, 0);
+    var n= history.length;
+    var newR = found?(sum/n):((sum+newRate)/(n+1));
 
     proj.ratings[0]=newR;
-    proj.ratings[1]=n+1;
+    if (found) proj.ratings[1].push({"value":newRate,"owner":Meteor.user().services.github.username});
 
     Projects.update(projId, proj);
   },
