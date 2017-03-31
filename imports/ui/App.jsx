@@ -105,7 +105,7 @@ class App extends Component {
       project.repo.language = info.language;
       project.repo.issues = info.open_issues;
       project.comments = [];
-      project.ratings=[0,0];
+      project.ratings=[0,[]];
       project.user = Meteor.user().services.github.username;
       console.log(project);
       Meteor.call('projects.insert', project);
@@ -165,7 +165,7 @@ class App extends Component {
         <div className="col-md-10">
         <Navib openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} logout={this.logout.bind(this)} login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
         {!this.state.mine?<About/>:null}
-        <Proyectos eraseProject={this.eraseProject.bind(this)} openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} mine={this.state.mine} buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
+        <Proyectos login={this.login.bind(this)} eraseProject={this.eraseProject.bind(this)} openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} mine={this.state.mine} buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
         </div>
 
       </div>

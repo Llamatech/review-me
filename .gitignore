@@ -40,4 +40,5 @@ jspm_packages
 # Meteor settings file
 settings-development.json
 settings-production.json
+settings.json
 

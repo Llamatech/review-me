@@ -10,7 +10,7 @@ class Proyectos extends Component{
   organize(){
     var arr=[]
     this.props.proyectos.map((proyecto)=>{
-      arr.push(<div className="col-md-4"><Proyecto eraseProject={this.props.eraseProject} key={proyecto.id} proyecto={proyecto}/></div>);
+      arr.push(<div className="col-md-4"><Proyecto login={this.props.login} eraseProject={this.props.eraseProject} key={proyecto.id} proyecto={proyecto}/></div>);
     })
     var chu = chunk(arr,3);
     return chu;

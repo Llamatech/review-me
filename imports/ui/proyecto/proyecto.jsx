@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
-import { Well, Button } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Well, Button } from 'react-bootstrap';
 import PModal from './proyModal';
 import ReactStars from 'react-stars';
 import axios from 'axios';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 
 
@@ -19,7 +20,8 @@ class Proyecto extends React.Component {
       avgRating:rating,
       comments:props.proyecto.comments,
       alert:false,
-      alertText:""
+      alertText:"",
+      conf: null
     }
   }
 
@@ -36,7 +38,88 @@ class Proyecto extends React.Component {
         avgRating: this.props.proyecto.ratings[0]
             });
     }
+    console.log(this.props.proyecto);
+  }
 
+  confirmation(){
+    console.log("????");
+
+    const getAlert = () => (
+      <SweetAlert
+      warning
+      showCancel
+      confirmBtnText="Yes, delete it!"
+      confirmBtnBsStyle="danger"
+      cancelBtnBsStyle="default"
+      title="Are you sure you want to delete this project?"
+      onCancel={()=>{
+        this.fileSave();
+      }}
+      onConfirm={()=>{
+        // console.log("WHY")
+        this.fileDeleted()
+      }}
+      >
+      Your project will be permanently deleted.
+      </SweetAlert>
+    );
+
+    this.setState({
+      conf: getAlert()
+    });
+
+    console.log(this.state.conf)
+
+  }
+
+  fileSave(){
+    const getAlert =()=>(
+      <SweetAlert
+      error
+      confirmBtnText="Ok"
+      confirmBtnBsStyle="danger"
+      title="Your project was not deleted"
+      onConfirm={()=>{
+        this.hideAlert();
+      }}
+      >
+      </SweetAlert>
+    )
+
+    this.setState({
+      conf: getAlert()
+    });
+  }
+
+  fileDeleted(){
+
+    console.log("why:(")
+    const getAlert =()=>(
+      <SweetAlert
+      success
+      confirmBtnText="Ok"
+      confirmBtnBsStyle="success"
+      title="Your project was successfully deleted"
+      onConfirm={()=>{
+        this.hideAlert();
+        this.props.eraseProject(this.props.proyecto._id);
+      }}
+      >
+      </SweetAlert>
+    )
+
+    this.setState({
+      conf: getAlert()
+    });
+  }
+
+
+
+  hideAlert() {
+    console.log('Hiding alert...');
+    this.setState({
+      conf: null
+    });
   }
 
   eraseComment(commId){
@@ -77,16 +160,29 @@ class Proyecto extends React.Component {
 
 
   render () {
+    const tooltip = (
+<Tooltip id="tooltip">Erase this project</Tooltip>
+);
     return(
+
       <div className="proyecto">
 
         <Well bsSize="lg">
           <div className = "">
             <div className = "row text-center">
+              {
+                Meteor.user()&&Meteor.user().services.github.username===this.props.proyecto.user?
+                <OverlayTrigger placement="right" overlay={tooltip}>
+
+                  <a type="button" onClick={()=>this.confirmation()}  className="close proyClose" aria-label="Erase project"><span aria-hidden="true">×</span></a>
+                  </OverlayTrigger>
+
+              :null
+              }
               <h2>{this.props.proyecto.name}</h2>
               <h5>{this.props.proyecto.owner}</h5>
             </div>
-
+            {this.state.conf}
             {this.props.proyecto.summary &&
               <div className = "row text-center">
                 <p>{this.props.proyecto.summary}</p>
@@ -94,7 +190,8 @@ class Proyecto extends React.Component {
             }
             <div className = "row text-center">
               <a href={this.props.proyecto.url} target="_blank"><h5><i className="fa fa-github fa-2x" aria-hidden="true"></i> Repo</h5></a>
-            </div>
+
+          </div>
             <div className="row">
               <div className ="col-md-4">
                 <h6><i className="fa fa-code-fork fa-lg" aria-hidden="true"></i>  Forks: {this.props.proyecto.repo.forks}</h6>
@@ -108,21 +205,14 @@ class Proyecto extends React.Component {
                 </h6>
               </div>
             </div>
-            <div className="row text-center">
-              <ReactStars count={5} size={24} color2={'#93c54b'} edit={false} value={this.state.avgRating}/>
+            <div className="no row text-center">
+              <ReactStars count={5} size={24} color2={'#637a00'} edit={false} value={this.state.avgRating}/>
             </div>
             <div className="row text-center">
               <br></br>
-              <PModal eraseComment={this.eraseComment.bind(this)} alert={this.state.alert} alertText={this.state.alertText} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
+              <PModal login={this.props.login} eraseComment={this.eraseComment.bind(this)} alert={this.state.alert} alertText={this.state.alertText} proyecto={this.props.proyecto} addRating={this.addRating.bind(this)} avgRating={this.state.avgRating} comments={this.state.comments} saveComment={this.saveComment.bind(this)}/>
             </div>
-            {
-              Meteor.user()&&Meteor.user().services.github.username===this.props.proyecto.user?
-              <div className = "row text-center">
-                <br></br>
-                <Button bsSize="sm" onClick={()=>this.props.eraseProject(this.props.proyecto._id)}>Delete this project</Button>
-              </div>
-              :null
-            }
+
 
           </div>
         </Well>

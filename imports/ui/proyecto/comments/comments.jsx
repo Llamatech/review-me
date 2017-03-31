@@ -46,7 +46,7 @@ class Comments extends React.Component {
           <div className="col-md-12">
 
             <form  onSubmit={this.cleanComment.bind(this)}>
-              <textarea className="form-control" rows="3" value={this.state.curComment} type="text" onChange={(event)=>
+              <textarea aria-label="Write a constructive review" className="form-control" rows="3" value={this.state.curComment} type="text" onChange={(event)=>
                 this.setState({curComment: event.target.value})
               }/>
             <br></br>

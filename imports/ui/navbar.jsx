@@ -50,7 +50,7 @@ class Navib extends React.Component {
         <Navbar collapseOnSelect className="navbar-fixed-top">
           <Navbar.Header>
             <Navbar.Brand>
-              <a onClick={()=>this.props.backHome()}><img src="https://68.media.tumblr.com/024cf54439d1a61124ce6ab1436174c2/tumblr_omb3fcuptx1qh8q8mo1_400.png" width="10px" style={{float:"left","marginRight":"5px"}}></img>   Review Me</a>
+              <a className="logo" onClick={()=>this.props.backHome()}><img src="https://68.media.tumblr.com/024cf54439d1a61124ce6ab1436174c2/tumblr_omb3fcuptx1qh8q8mo1_400.png" alt="logo" width="10px" style={{float:"left","marginRight":"5px"}}></img>   Review Me</a>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -62,7 +62,7 @@ class Navib extends React.Component {
             </Nav>
             <Navbar.Form pullLeft>
               <FormGroup>
-                <FormControl type="text" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
+                <FormControl type="text" aria-label="Search" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
               </FormGroup>
               {' '}
               {Meteor.user()?null:<Button type="button" onClick={() => this.props.login()}><i className="fa fa-github"></i> Login with Github</Button>}

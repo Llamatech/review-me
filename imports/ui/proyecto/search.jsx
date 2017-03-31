@@ -76,22 +76,22 @@ class AdvSearch extends React.Component {
         <div className="col-md-3 text-center minimum">
           <label><i className="fa fa-code-fork fa-lg" aria-hidden="true"></i>  Minimum Forks:</label>
 
-          <input className="form-control" type="text" value={this.state.forks} onChange={(event)=>this.forks(event.target.value)}></input>
+          <input aria-label="Minimum forks" className="form-control" type="text" value={this.state.forks} onChange={(event)=>this.forks(event.target.value)}></input>
         </div>
         <div className="col-md-3 text-center minimum">
           <label><i className="fa fa-star fa-lg" aria-hidden="true"></i>  Minimum Stars:</label>
 
-          <input className="form-control" type="text" value={this.state.stars} onChange={(event)=>this.stars(event.target.value)}></input>
+          <input aria-label="Minimum stars" className="form-control" type="text" value={this.state.stars} onChange={(event)=>this.stars(event.target.value)}></input>
         </div>
         <div className="col-md-3 text-center minimum">
           <label><i className="fa fa-eye fa-lg" aria-hidden="true"></i>  Minimum Watchers:</label>
 
-          <input className="form-control" type="text" value={this.state.watchers} onChange={(event)=>this.watchers(event.target.value)}></input>
+          <input aria-label="Minimum watchers" className="form-control" type="text" value={this.state.watchers} onChange={(event)=>this.watchers(event.target.value)}></input>
         </div>
         <div className="col-md-3 text-center minimum">
           <label><i className="fa fa-exclamation-circle fa-lg" aria-hidden="true"></i>  Minimum Issues:</label>
 
-          <input className="form-control" type="text" value={this.state.issues} onChange={(event)=>this.issues(event.target.value)}></input>
+          <input aria-label="Minimum Issues" className="form-control" type="text" value={this.state.issues} onChange={(event)=>this.issues(event.target.value)}></input>
         </div>
       </div>
 

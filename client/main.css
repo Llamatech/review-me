@@ -24,11 +24,29 @@ div.about{
   font-size:5em;
 }
 
-.well{
-  background-color: #EEE;
+div.well{
+  background-color: #EEE !important;
 }
 
+.about strong{
+  color:#637a00 !important;
+}
 
+.proyClose{
+  margin-top: -15px !important;
+}
+
+a{
+  color:#637a00 !important;
+}
+
+a.logo{
+  color:#FFF !important;
+}
+
+.no span{
+  cursor:default !important;
+}
 
 .newProj >a:hover{
   color:#98978b !important;
