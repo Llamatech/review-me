@@ -1,18 +1,16 @@
-import React, { PropTypes } from 'react';
-import { Button, Modal, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import Comments from './comments/comments';
+import React from 'react';
+import { Button, Modal, Tooltip } from 'react-bootstrap';
 import ReactStars from 'react-stars';
-
-
+import Comments from './comments/comments.jsx';
 
 class PModal extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     console.log(props.comments);
-    this.state={
-      showModal:false
-    }
+    this.state = {
+      showModal: false,
+    };
   }
 
   modalClose() {
@@ -22,8 +20,6 @@ class PModal extends React.Component {
   modalOpen() {
     this.setState({ showModal: true });
   }
-
-
 
   render () {
     const tooltip = (
@@ -41,10 +37,14 @@ class PModal extends React.Component {
             <Modal.Title><h2>{this.props.proyecto.name}  <small><a href={"https://github.com/"+this.props.proyecto.owner}>{this.props.proyecto.owner}</a></small></h2></Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            {this.props.proyecto.description?
+              <div>
             <h3>Description</h3>
             <p>{this.props.proyecto.description}</p>
 
             <hr />
+            </div>:null
+            }
 
             <h3>Open source information</h3>
               <div className="row">

@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "start": "meteor --settings settings-development.json",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent",
     "staging": "xervo env set METEOR_SETTINGS \"$(cat settings-staging.json)\" -p 'App - Staging' && xervo deploy -f -p 'App - Staging'",
     "production": "xervo env set METEOR_SETTINGS \"$(cat settings-production.json)\" -p 'App - Production' && xervo deploy -f -p 'App - Production'"
   },
@@ -21,5 +23,32 @@
     "react-stars": "^2.1.0",
     "sha3": "^1.2.0",
     "url-parse": "^1.1.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.1",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-import-resolver-meteor": "^0.3.4",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-meteor": "^4.0.1",
+    "eslint-plugin-react": "^6.10.3"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "meteor"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:meteor/recommended"
+    ],
+    "settings": {
+      "import/resolver": "meteor"
+    },
+    "rules": {}
   }
 }

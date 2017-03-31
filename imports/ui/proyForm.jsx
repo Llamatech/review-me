@@ -57,7 +57,12 @@ class PForm extends React.Component {
         "description":this.state.description,
         "collaborator":this.state.collaborator
       })
-      this.setState({goodAlert:true});
+      this.setState({
+        url:'',
+        description:'',
+        collaborator:'',
+        goodAlert:true
+      });
     }
     else{
       this.setState({errorAlert:true});
