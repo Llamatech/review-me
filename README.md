@@ -38,4 +38,7 @@ See it in action at: http://localhost:3000
 ## Screenshot and sample image
 ![alt tag](/img/sample.png)
 
+## Demo video
+See a demo of the app here: https://youtu.be/w0f-WNGsf4s
+
 
