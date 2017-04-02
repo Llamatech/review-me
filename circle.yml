@@ -1,0 +1,24 @@
+# https://circleci.com/gh/Llamatech/review-me
+
+machine:
+  hosts:
+    review-me.margffoy-tuay.com: 127.0.0.1:3000
+  environment:
+    # For Coveralls
+    COVERALLS_REPO_TOKEN: hUyo0WxL7HxdL0tmwqpyKZAwJf4qlWujf
+    MONGO_URL: mongodb://127.0.0.1:27017
+    ROOT_URL: http://review-me.margffoy-tuay.com
+  services:
+    - mongod
+  pre:
+    - meteor || curl https://install.meteor.com | /bin/sh
+  post:
+    - meteor --version
+
+dependencies:
+  override:
+    - meteor npm install
+
+test:
+  override:
+    - echo $METEOR_SETTINGS > settings-development.json
