@@ -17,12 +17,12 @@ addons:
 
 before_install:
   - "meteor || curl https://install.meteor.com | /bin/sh"
-  - "meteor --version"
 
 services:
   - mongodb
 
 install:
+  - meteor --version
   - echo $METEOR_SETTINGS > settings-development.json
 
 script:
