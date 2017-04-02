@@ -1,0 +1,29 @@
+# https://travis-ci.org/Llamatech/review-me
+
+language: node_js
+
+node_js:
+  - "iojs"
+  - "node"
+  - "7"
+env:
+  global:
+    - MONGO_URL=mongodb://127.0.0.1:27017
+    - ROOT_URL=http://review-me.margffoy-tuay.com
+
+addons:
+  hosts:
+    - review-me.margffoy-tuay.com
+
+before_install:
+  - "meteor || curl https://install.meteor.com | /bin/sh"
+  - "meteor --version"
+
+services:
+  - mongodb
+
+install:
+  - echo $METEOR_SETTINGS > settings-development.json
+
+script:
+  - echo Hi!
