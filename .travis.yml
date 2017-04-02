@@ -1,6 +1,7 @@
 # https://travis-ci.org/Llamatech/review-me
 
 language: node_js
+sudo: true
 
 node_js:
   - "iojs"
