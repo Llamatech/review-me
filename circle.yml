@@ -9,7 +9,7 @@ machine:
     MONGO_URL: mongodb://127.0.0.1:27017
     ROOT_URL: http://review-me.margffoy-tuay.com
   services:
-    - mongodb
+    - mongod
   pre:
     - meteor || curl https://install.meteor.com | /bin/sh
   post:
