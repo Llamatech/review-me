@@ -8,6 +8,7 @@ node_js:
   - "node"
   - "7"
 env:
+  - CXX=g++-4.8
   global:
     - MONGO_URL=mongodb://127.0.0.1:27017
     - ROOT_URL=http://review-me.margffoy-tuay.com
@@ -15,6 +16,11 @@ env:
 addons:
   hosts:
     - review-me.margffoy-tuay.com
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 
 before_install:
   - "meteor || curl https://install.meteor.com | /bin/sh"
