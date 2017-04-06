@@ -29,6 +29,7 @@
     "coveralls": "^2.13.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-airbnb-base-hf": "^1.10.2",
     "eslint-config-google": "^0.7.1",
     "eslint-import-resolver-meteor": "^0.3.4",
     "eslint-plugin-import": "^2.2.0",
