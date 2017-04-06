@@ -25,6 +25,7 @@ services:
 install:
   - meteor --version
   - echo $METEOR_SETTINGS > settings-development.json
+  - ./node_modules/.bin/eslint .
 
 script:
   - echo Hi!
