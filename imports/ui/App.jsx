@@ -1,10 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import { Meteor } from 'meteor/meteor';
-import Proyectos from './proyecto/proyectos';
-import Navib from './navbar';
-import About from './about';
+import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
+import Proyectos from './proyecto/proyectos.jsx';
+import Navib from './navbar.jsx';
+import About from './about.jsx';
 import { Projects } from '../api/projects.js';
 
 
@@ -15,9 +15,9 @@ class App extends Component {
 
     this.state = {
       proyectos: this.props.proyectos,
-      user:{'username':'Guest'},
-      term:"",
-      mine:false
+      user: { username: 'Guest' },
+      term: '',
+      mine: false
     }
 
   }
