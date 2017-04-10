@@ -45,7 +45,7 @@ Meteor.methods({
         var newR = found?(sum/n):((sum+newRate)/(n+1));
 
         proj.ratings[0]=newR;
-        if (found) proj.ratings[1].push({'value':newRate,'owner':Meteor.user().services.github.username});
+        if (!found) proj.ratings[1].push({'value':newRate,'owner':Meteor.user().services.github.username});
 
         Projects.update(projId, proj);
     },
