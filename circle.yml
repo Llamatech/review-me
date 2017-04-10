@@ -22,3 +22,4 @@ dependencies:
 test:
   override:
     - echo $METEOR_SETTINGS > settings-development.json
+    - ./node_modules/.bin/eslint .
