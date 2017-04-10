@@ -4,7 +4,6 @@ import { check } from 'meteor/check';
 import ObjectId from 'bson-objectid';
 
 export const Projects = new Mongo.Collection('projects');
-GlobalProjects = Projects;
 
 Meteor.methods({
   'projects.insert'(project) {
@@ -25,9 +24,6 @@ Meteor.methods({
     check(projId, String);
 
     var found = false;
-
-
-
     var proj = Projects.find(projId).fetch()[0];
 
     var rate = proj.ratings[0];

@@ -47,7 +47,9 @@
       "plugin:meteor/recommended"
     ],
     "settings": {
+      "import/no-extraneous-dependencies": "off",
       "import/resolver": "meteor"
+
     },
     "rules": {}
   }
