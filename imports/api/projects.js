@@ -39,7 +39,7 @@ Meteor.methods({
                 proj.ratings[1][i].value=newRate;
             }
         }
-
+      
         var sum = history.reduce((a, b) => a + b.value, 0);
         var n= history.length;
         var newR = found?(sum/n):((sum+newRate)/(n+1));
