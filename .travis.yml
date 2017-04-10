@@ -4,17 +4,23 @@ language: node_js
 sudo: true
 
 node_js:
-  - "iojs"
   - "node"
   - "7"
 env:
   global:
     - MONGO_URL=mongodb://127.0.0.1:27017
     - ROOT_URL=http://review-me.margffoy-tuay.com
+    - CXX=g++-4.8
 
 addons:
   hosts:
     - review-me.margffoy-tuay.com
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - gcc-4.8
 
 before_install:
   - "meteor || curl https://install.meteor.com | /bin/sh"
@@ -25,6 +31,8 @@ services:
 install:
   - meteor --version
   - echo $METEOR_SETTINGS > settings-development.json
+  - meteor npm install
 
 script:
   - echo Hi!
+  - ./node_modules/.bin/eslint .

@@ -1,18 +1,18 @@
-
+/* global JobCollection, Modules, Job, GlobalProjects, HTTP */
 
 let startjobs = () => {
     var myJobs = JobCollection('github-extract');
-    var server = myJobs.startJobServer();
-    let i = 0
-    var workers = myJobs.processJobs('update-project', {
+    myJobs.startJobServer();
+    // let i = 0;
+    myJobs.processJobs('update-project', {
         concurrency: 1,
         payload: 100,
         pollInterval: 1000*15*60,
         prefetch: 100
     },
     (jobs, cb) => {
-        console.log("This should be called periodically: " + i);
-        i++;
+        // console.log("This should be called periodically: " + i);
+        // i++;
         // GlobalProjects = new Mongo.Collection('projects');
         var projects = GlobalProjects.find({}).fetch();
         var apiEndpoint = 'https://api.github.com/repos/';
@@ -20,11 +20,11 @@ let startjobs = () => {
         {
             let project = projects[j];
             var url = apiEndpoint + project.owner + '/' + project.name;
-            console.log(url);
+            // console.log(url);
             HTTP.get(url, {'headers':{'User-Agent':'request'}}, (err, resp) => {
                 if(err) {
-                    console.error("Error!");
-                    console.log(err);
+                    // console.error("Error!");
+                    // console.log(err);
                 }
                 else
                 {
@@ -42,7 +42,7 @@ let startjobs = () => {
                         fork: body.fork
                     };
                     // var project = {}
-                    project.parent_repo = "";
+                    project.parent_repo = '';
                     if(body.fork) {
                         info = body.parent;
                         project.parent_repo = body.parent.owner.html_url;
@@ -57,7 +57,7 @@ let startjobs = () => {
             });
         }
         // HTTP.get('')
-        console.log(jobs.length);
+        // console.log(jobs.length);
         for(var k = 0; k < jobs.length; k++)
         {
             // console.log(k);
@@ -67,16 +67,16 @@ let startjobs = () => {
         cb();
     });
 
-    var job = new Job(myJobs, 'update-project', {"update":true});
+    var job = new Job(myJobs, 'update-project', {'update':true});
     job.priority('normal')
       .retry({retries: 0})
       .delay(0)
       .repeat({
-        repeats: Job.forever,
-        wait: 1000*15*60
+          repeats: Job.forever,
+          wait: 1000*15*60
       })     // Wait an hour before first try
       .save();
 
-}
+};
 
 Modules.server.startjobs = startjobs;
