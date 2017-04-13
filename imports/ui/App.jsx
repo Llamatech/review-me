@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
-import { createContainer } from 'meteor/react-meteor-data';
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';// eslint-disable-line
+import { createContainer } from 'meteor/react-meteor-data';// eslint-disable-line
 import Proyectos from './proyecto/proyectos.jsx';
 import Navib from './navbar.jsx';
 import About from './about.jsx';
-import { Projects } from '../api/projects.js';
+import { Projects } from '../api/projects.js';// eslint-disable-line
 
 
 class App extends Component {
@@ -17,87 +17,74 @@ class App extends Component {
       proyectos: this.props.proyectos,
       user: { username: 'Guest' },
       term: '',
-      mine: false
-    }
-
-  }
-
-  buscarProyectos(t){
-    this.setState({term:t});
-    Session.set('term', t);
-  }
-
-  buscarAdv(terms){
-    console.log(terms);
-    Session.set('filters',terms);
-
+      mine: false,
+    };
   }
 
   componentDidMount() {
     Meteor.call('getUserData', (err, res) => {
-      if(err) {
-        alert(err)
-      }
-      else {
-        console.log(res);
+      if (!err) {
         this.setState({
-          user: res.services.github
+          user: res.services.github,
         });
       }
-    })
+    });
   }
 
-  getProyectos(){
-    console.log(this.props.proyectos)
-    console.log(this.state.proyectos)
-    this.setState({proyectos:this.props.projects})
+  getProyectos() {
+    this.setState({ proyectos: this.props.projects })
+  }
 
+  buscarProyectos(t) {
+    this.setState({ term: t });
+    Session.set('term', t);
+  }
+
+  buscarAdv(terms) {
+    Session.set('filters', terms);
   }
 
   logout() {
-      Meteor.logout(() =>{
-        this.setState({
-            user:{'username':'Guest'}
-        });
+    Meteor.logout(() => {
+      this.setState({
+        user: { username: 'Guest' },
       });
+    });
   }
 
-  eraseProject(projId){
-    Meteor.call('projects.eraseProject',projId);
+  eraseProject(projId) {
+    Meteor.call('projects.eraseProject', projId);
   }
 
-  addProject(project){
-    var url = require('url-parse');
+  addProject(pr) {
+    const project = pr;
+    const url = require('url-parse');
 
-    var urlObj = url(project.url, true);
-    var path = urlObj.pathname;
-    console.log(path);
-    var routes = path.split('/');
-    var owner = routes[1];
-    var repo = routes[2];
-    var apiEndpoint = 'https://api.github.com/repos/';
-    var apiUrl = apiEndpoint+owner+"/"+repo;
-    console.log(apiUrl);
+    const urlObj = url(project.url, true);
+    const path = urlObj.pathname;
+    const routes = path.split('/');
+    let owner = routes[1];
+    const repo = routes[2];
+    const apiEndpoint = 'https://api.github.com/repos/';
+    const apiUrl = `${apiEndpoint}${owner}/${repo}`;
 
-    axios.get(apiUrl,{}).then(response=>{
-      console.log("giiit");
-      console.log(response)
-      var body = response.data;
-      var owner = body.owner;
+    axios.get(apiUrl, {}).then((response) => {
+      const body = response.data;
+      owner = body.owner;
       project.id = body.id;
       project.name = body.name;
       project.owner = owner.login;
       project.summary = body.description;
       project.webpage = body.homepage;
       project.repo = {
-          url: body.html_url,
-          fork: body.fork
+        url: body.html_url,
+        fork: body.fork,
       };
-      var info = body;
-      project.parent_repo = "";
-      if(body.fork) {
-          info = body.parent;
-          project.parent_repo = body.parent.owner.html_url;
+      let info = body;
+      project.parent_repo = '';
+      if (body.fork) {
+        info = body.parent;
+        project.parent_repo = body.parent.owner.html_url;
       }
       project.repo.watchers = info.watchers_count;
       project.repo.forks = info.forks_count;
@@ -105,125 +92,115 @@ class App extends Component {
       project.repo.language = info.language;
       project.repo.issues = info.open_issues;
       project.comments = [];
-      project.ratings=[0,[]];
+      project.ratings = [0, []];
       project.user = Meteor.user().services.github.username;
-      console.log(project);
       Meteor.call('projects.insert', project);
-    }).catch(function (error) {
-      console.log("que putitas");
+    }).catch((error) => {
       console.log(error);
     });
   }
 
   login() {
-    console.log("Login with Github");
-    options = {
-      requestPermissions: [ 'email' ]
-    }
-    Meteor['loginWithGithub'](options, (err) => {
-        console.log(err);
-        var user = Meteor.user();
-        console.log(user.services.github.username);
-        this.setState({
-          user: user.services.github
-        })
+    const options = {
+      requestPermissions: ['email'],
+    };
+    Meteor.loginWithGithub(options, (err) => {
+      console.log(err);
+      const user = Meteor.user();
+      console.log(user.services.github.username);
+      this.setState({
+        user: user.services.github,
+      });
     });
   }
 
-  openMine(){
-    this.setState({mine:true});
-    Session.set('mine',true);
+  openMine() {
+    this.setState({ mine: true });
+    Session.set('mine', true);
     console.log(Session.get('mine'));
   }
 
-  backHome(){
-    this.setState({mine:false});
-    Session.set('mine',false)
+  backHome() {
+    this.setState({ mine: false });
+    Session.set('mine', false)
   }
 
-  help(){
-    this.state.proyectos=this.props.proyectos;
+  help() {
+    this.state.proyectos = this.props.proyectos;
     console.log(this.props.proyectos);
   }
 
-  changeName(){
-    var user = Meteor.user();
-    console.log(user);
-    while(true){
-      console.log(user);
-      user = Meteor.user();
-      if (typeof user!=='undefined'){
-        break;
-      }
-    }
-  }
-
-  render(){
-    return(
+  render() {
+    return (
       <div>
         <div className="col-md-1"></div>
         <div className="col-md-10">
-        <Navib openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} logout={this.logout.bind(this)} login={this.login.bind(this)} buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)} buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}/>
-        {!this.state.mine?<About/>:null}
-        <Proyectos login={this.login.bind(this)} eraseProject={this.eraseProject.bind(this)} openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)} mine={this.state.mine} buscarAdv={this.buscarAdv.bind(this)} proyectos={this.props.proyectosActuales}/>
+          <Navib openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)}
+            logout={this.logout.bind(this)} login={this.login.bind(this)}
+            buscar={this.buscarProyectos.bind(this)} addProject={this.addProject.bind(this)}
+            buscarAdv={this.buscarAdv.bind(this)} user={this.state.user}
+          />
+          { !this.state.mine ? <About /> : null }
+          <Proyectos login={this.login.bind(this)} eraseProject={this.eraseProject.bind(this)}
+            openMine={this.openMine.bind(this)} backHome={this.backHome.bind(this)}
+            mine={this.state.mine} buscarAdv={this.buscarAdv.bind(this)}
+            proyectos={this.props.proyectosActuales}
+          />
         </div>
 
       </div>
-
-    )
-
+    );
   }
 }
 
 App.propTypes = {
   proyectos: PropTypes.array.isRequired,
+  proyectosActuales: PropTypes.array.isRequired,
 };
 
 export default createContainer(() => {
-  var sTerm = Session.get('term')?Session.get('term'):'';
-  var stars=0;
-  var forks=0;
-  var issues=0;
-  var watchers=0;
+  const sTerm = Session.get('term')?Session.get('term'):'';
+  let stars = 0;
+  let forks = 0;
+  let issues = 0;
+  let watchers = 0;
 
   console.log(Session.get('mine'));
-  var u=Meteor.user()&&Session.get('mine')?Meteor.user().services.github.username:'';
+  const u = Meteor.user() && Session.get('mine') ? Meteor.user().services.github.username : '';
   console.log(u);
 
-  if(Session.get('filters')){
-    stars =Session.get('filters').stars ? Number(Session.get('filters').stars) : 0;
+  if (Session.get('filters')) {
+    stars = Session.get('filters').stars ? Number(Session.get('filters').stars) : 0;
     forks = Session.get('filters').forks ? Number(Session.get('filters').forks) : 0;
     issues = Session.get('filters').issues ? Number(Session.get('filters').issues) : 0;
     watchers = Session.get('filters').watchers ? Number(Session.get('filters').watchers) : 0;
   }
 
-  var query =
-  {$and:[
-    {
-      $or: [
-          {name:{'$regex':'\X*'+sTerm+'\X*'}},
-          {summary:{'$regex':'\X*'+sTerm+'\X*'}},
-          {owner:{'$regex':'\X*'+sTerm+'\X*'}},
-          {description:{'$regex':'\X*'+sTerm+'\X*'}}
-      ]
-    },
-    {
-      $and:
-      [
-        {"repo.stars": {$gte:stars}},
-        {"repo.forks": {$gte:forks}},
-        {"repo.watchers": {$gte:watchers}},
-        {"repo.issues": {$gte:issues}},
-        {user:{'$regex':'\X*'+u+'\X*'}}
-      ]
-    },
+  const query =
+    { $and: [
+      {
+        $or: [
+            { name: { $regex: `\X*${sTerm}\X*` } },
+            { summary: { $regex: `\X*${sTerm}\X*` } },
+            { owner: { $regex: `\X*${sTerm}\X*` } },
+            { description: { $regex: `\X*${sTerm}\X*` } }
+        ]
+      },
+      {
+        $and:
+        [
+          { 'repo.stars': { $gte: stars } },
+          { 'repo.forks': { $gte: forks } },
+          { 'repo.watchers': { $gte: watchers } },
+          { 'repo.issues': { $gte: issues } },
+          { user: { $regex: `\X*${u}\X*` } },
+        ],
+      },
+    ] };
 
-  ]}
-
-    console.log(query);
-  var a = {
+  const a = {
     proyectos: Projects.find({}).fetch(),
-    proyectosActuales: Projects.find(query).fetch()
+    proyectosActuales: Projects.find(query).fetch(),
   };
   console.log(a);
   return a;
