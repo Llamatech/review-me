@@ -42,3 +42,4 @@ settings-development.json
 settings-production.json
 settings.json
 
+.coverage/*
