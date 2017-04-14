@@ -1,3 +1,5 @@
+/* eslint-disable no-undef,
+ no-unused-vars */
 import React from 'react';
 import { Button, Modal, Tooltip } from 'react-bootstrap';
 import ReactStars from 'react-stars';
@@ -5,27 +7,26 @@ import Comments from './comments/comments.jsx';
 
 class PModal extends React.Component {
 
-  constructor(props) {
-    super(props);
-    console.log(props.comments);
-    this.state = {
-      showModal: false,
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            showModal: false
+        };
+    }
 
-  modalClose() {
-    this.setState({ showModal: false });
-  }
+    modalClose() {
+        this.setState({showModal: false});
+    }
 
-  modalOpen() {
-    this.setState({ showModal: true });
-  }
+    modalOpen() {
+        this.setState({showModal: true});
+    }
 
-  render () {
-    const tooltip = (
-      <Tooltip id="tooltip"><strong>You need to be logged in to leave a review</strong></Tooltip>
-    );
-    return(
+    render () {
+        const tooltip = (
+            <Tooltip id="tooltip"><strong>You need to be logged in to leave a review</strong></Tooltip>
+        );
+        return(
       <div>
 
         <Button bsSize="sm" onClick={this.modalOpen.bind(this)}>
@@ -34,7 +35,7 @@ class PModal extends React.Component {
 
         <Modal show={this.state.showModal} onHide={this.modalClose.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title><h2>{this.props.proyecto.name}  <small><a href={"https://github.com/"+this.props.proyecto.owner}>{this.props.proyecto.owner}</a></small></h2></Modal.Title>
+            <Modal.Title><h2>{this.props.proyecto.name}  <small><a href={'https://github.com/'+this.props.proyecto.owner}>{this.props.proyecto.owner}</a></small></h2></Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.props.proyecto.description?
@@ -121,8 +122,8 @@ class PModal extends React.Component {
           </Modal.Footer>
         </Modal>
       </div>
-    )
-  }
+        );
+    }
 }
 
 export default PModal;
