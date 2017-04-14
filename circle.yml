@@ -22,4 +22,8 @@ dependencies:
 test:
   override:
     - echo $METEOR_SETTINGS > settings-development.json
-    - ./node_modules/.bin/eslint .
+    - ./node_modules/.bin/eslint .:
+        parallel: true
+    - meteor test --once --driver-package dispatch:mocha:
+        parallel: true
+

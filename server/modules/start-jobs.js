@@ -1,4 +1,6 @@
-/* global JobCollection, Modules, Job, GlobalProjects, HTTP */
+/* global JobCollection, Modules, Job, HTTP */
+
+import {Projects} from '../../imports/api/projects.js';
 
 let startjobs = () => {
     var myJobs = JobCollection('github-extract');
@@ -13,8 +15,8 @@ let startjobs = () => {
     (jobs, cb) => {
         // console.log("This should be called periodically: " + i);
         // i++;
-        // GlobalProjects = new Mongo.Collection('projects');
-        var projects = GlobalProjects.find({}).fetch();
+        // Projects = new Mongo.Collection('projects');
+        var projects = Projects.find({}).fetch();
         var apiEndpoint = 'https://api.github.com/repos/';
         for(var j = 0; j < projects.length; j++)
         {
@@ -52,7 +54,7 @@ let startjobs = () => {
                     project.repo.stars = info.stargazers_count;
                     project.repo.language = info.language;
                     project.repo.issues = info.open_issues;
-                    GlobalProjects.update({_id:project._id}, project);
+                    Projects.update({_id:project._id}, project);
                 }
             });
         }
