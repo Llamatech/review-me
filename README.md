@@ -5,8 +5,9 @@ The Internet Project Database - A system to review and rate FOSS projects hosted
 [![Build Status](https://travis-ci.org/Llamatech/review-me.svg?branch=master)](https://travis-ci.org/Llamatech/review-me)
 [![CircleCI](https://circleci.com/gh/Llamatech/review-me.svg?style=svg)](https://circleci.com/gh/Llamatech/review-me)
 [![Coverage Status](https://coveralls.io/repos/github/Llamatech/review-me/badge.svg?branch=master)](https://coveralls.io/github/Llamatech/review-me?branch=master)
+[![dependencies Status](https://david-dm.org/Llamatech/review-me/status.svg)](https://david-dm.org/Llamatech/review-me)
 
-## New on this version: v0.2
+## New on this version: v0.3
 Visit our [CHANGELOG](CHANGELOG.md) file to know more about our new features and improvements.
 
 
