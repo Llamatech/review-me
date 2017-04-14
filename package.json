@@ -59,7 +59,8 @@
       "import/resolver": "meteor"
     },
     "rules": {
-      "linebreak-style": 0
+      "linebreak-style": 0,
+      "indent":4
     }
   }
 }
