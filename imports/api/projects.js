@@ -12,11 +12,6 @@ Meteor.methods({
     'projects.insert'(project) {
         Projects.insert(project);
     },
-    'projects.remove'(projId) {
-        check(projId, String);
-
-        Projects.remove(projId);
-    },
     'projects.addComment'(projId, comment) {
         check(projId, String);
         check(comment, String);
@@ -46,24 +41,26 @@ Meteor.methods({
         proj.ratings[0]=newR;
         if (!found) proj.ratings[1].push({'value':newRate,'owner':Meteor.user().services.github.username});
 
+
         Projects.update(projId, proj);
     },
-    'projects.search'(search_term) {
-        check(search_term, String);
-
-        var projs = Projects.find({
-            $or: [
-                {name:{'$regex':'\X*'+search_term+'\X*'}},
-                {summary:{'$regex':'\X*'+search_term+'\X*'}},
-                {owner:{'$regex':'\X*'+search_term+'\X*'}}
-            ]
-        }).fetch();
-        return projs;
-    },
+    // 'projects.search'(search_term) {
+    //     check(search_term, String);
+    //
+    //     var projs = Projects.find({
+    //         $or: [
+    //             {name:{'$regex':'\X*'+search_term+'\X*'}},
+    //             {summary:{'$regex':'\X*'+search_term+'\X*'}},
+    //             {owner:{'$regex':'\X*'+search_term+'\X*'}}
+    //         ]
+    //     }).fetch();
+    //     return projs;
+    // },
     'projects.removeComment'(projId, commId) {
         Projects.update(projId,{$pull: {comments:{'_id':commId}}});
     // console.log(Projects.find(projId).fetch());
         return Projects.find(projId).fetch()[0].comments;
+
 
     },
     'projects.eraseProject'(projId) {
