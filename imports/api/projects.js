@@ -57,14 +57,9 @@ Meteor.methods({
     //     return projs;
     // },
     'projects.removeComment'(projId, commId) {
-        const project = Projects.find(projId).fetch();
-        if (project.user === Meteor.user().services.github.username){
-            Projects.update(projId,{$pull: {comments:{'_id':commId}}});
-        // console.log(Projects.find(projId).fetch());
-            return Projects.find(projId).fetch()[0].comments;
-        }else{
-            throw new Meteor.Error('not-authorized');
-        }
+       Projects.update(projId,{$pull: {comments:{'_id':commId}}});
+    // console.log(Projects.find(projId).fetch());
+        return Projects.find(projId).fetch()[0].comments;
 
 
     },
