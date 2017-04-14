@@ -21,6 +21,7 @@
     "react": "^15.4.2",
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-bootstrap": "^0.30.8",
+    "react-bootstrap-sweetalert": "^3.0.0",
     "react-dom": "^15.4.2",
     "react-stars": "^2.1.0",
     "sha3": "^1.2.0",
@@ -30,6 +31,7 @@
     "@meteorjs/eslint-config-meteor": "^1.0.5",
     "babel-eslint": "^7.1.1",
     "coveralls": "^2.13.0",
+    "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-import-resolver-meteor": "^0.3.4",
@@ -54,7 +56,7 @@
       "plugin:meteor/recommended"
     ],
     "settings": {
-      "meteor/no-session":"off",
+      "meteor/no-session": "off",
       "import/no-extraneous-dependencies": "off",
       "import/resolver": "meteor"
     },

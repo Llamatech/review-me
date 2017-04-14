@@ -6,6 +6,7 @@ import { check } from 'meteor/check';
 import ObjectId from 'bson-objectid';
 
 export const Projects = new Mongo.Collection('projects');
+// GlobalProjects = Projects;
 
 Meteor.methods({
     'projects.insert'(project) {

@@ -28,3 +28,6 @@ accounts-password
 session
 vsivsi:job-collection
 http
+practicalmeteor:mocha
+dburles:factory
+dispatch:mocha
