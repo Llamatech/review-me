@@ -26,4 +26,7 @@ test:
         parallel: true
     - meteor test --once --driver-package dispatch:mocha:
         parallel: true
+    - meteor npm run coverage-app-unit:
+        parallel: true
+    - cat .coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js || true
 

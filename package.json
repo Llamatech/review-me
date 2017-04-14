@@ -4,6 +4,7 @@
   "scripts": {
     "start": "meteor --settings settings-development.json",
     "lint": "eslint .",
+    "coverage-app-unit": "spacejam --driver-package=practicalmeteor:mocha-console-runner test --coverage 'out_lcovonly out_coverage out_html'",
     "pretest": "npm run lint --silent",
     "staging": "xervo env set METEOR_SETTINGS \"$(cat settings-staging.json)\" -p 'App - Staging' && xervo deploy -f -p 'App - Staging'",
     "production": "xervo env set METEOR_SETTINGS \"$(cat settings-production.json)\" -p 'App - Production' && xervo deploy -f -p 'App - Production'"
@@ -40,7 +41,8 @@
     "eslint-plugin-meteor": "^4.0.1",
     "eslint-plugin-react": "^6.10.0",
     "istanbul": "^0.4.5",
-    "mocha-lcov-reporter": "^1.3.0"
+    "mocha-lcov-reporter": "^1.3.0",
+    "spacejam": "https://github.com/serut/spacejam/tarball/windows-suppport-rc4"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
@@ -62,7 +64,7 @@
     },
     "rules": {
       "linebreak-style": 0,
-      "indent":4
+      "indent": 4
     }
   }
 }
