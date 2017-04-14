@@ -65,6 +65,7 @@ if(Meteor.server)
             const project = Projects.find({}).fetch();
             Meteor.call('projects.addRating', project[0]._id, 5, function() {
                 // console.log(err);
+
                 Meteor.user = function() {
                     return {
                         'services': {
@@ -74,10 +75,11 @@ if(Meteor.server)
                         }
                     };
                 };
+
                 Meteor.call('projects.addRating', project[0]._id, 3, function() {
                     // console.log(err);
                     const projectModified = Projects.find({}).fetch();
-                    // console.log(projectModified[0].ratings);
+
                     assert.equal(projectModified[0].ratings[0], 4);
                 });
             });
@@ -93,6 +95,30 @@ if(Meteor.server)
                     // console.log(projectModified[0].ratings);
                     assert.equal(projectModified[0].ratings[0], 3);
                 });
+            });
+        });
+
+        it('Should not find erased project', function() {
+            const project = Projects.find({}).fetch();
+            Meteor.call('projects.eraseProject', project[0]._id, function() {
+                const afterProject = Projects.find({}).fetch();
+                assert.equal(afterProject.length, 0);
+            });
+        });
+
+        it('Should not find erased comment', function() {
+            const project = Projects.find({}).fetch();
+            // console.log(project[0]);
+            Meteor.call('projects.addComment', project[0]._id, 'Some comment', function() {
+                // console.log(err)
+                const projectModified = Projects.find({}).fetch();
+
+                Meteor.call('projects.removeComment', project[0]._id, projectModified.comments[0]._id, function() {
+                    // console.log(err)
+                    assert.equal(projectModified[0].comments.length, 0);
+                    // console.log(projectModified[0]);
+                });
+                // console.log(projectModified[0]);
             });
         });
 
