@@ -57,7 +57,7 @@ Meteor.methods({
     //     return projs;
     // },
     'projects.removeComment'(projId, commId) {
-       Projects.update(projId,{$pull: {comments:{'_id':commId}}});
+        Projects.update(projId,{$pull: {comments:{'_id':commId}}});
     // console.log(Projects.find(projId).fetch());
         return Projects.find(projId).fetch()[0].comments;
 

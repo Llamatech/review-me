@@ -112,10 +112,11 @@ if(Meteor.server)
             Meteor.call('projects.addComment', project[0]._id, 'Some comment', function() {
                 // console.log(err)
                 const projectModified = Projects.find({}).fetch();
-
-                Meteor.call('projects.removeComment', project[0]._id, projectModified.comments[0]._id, function() {
+                // console.log(projectModified[0]);
+                Meteor.call('projects.removeComment', projectModified[0]._id, projectModified[0].comments[0]._id, function() {
+                    const afterProject = Projects.find({}).fetch();
                     // console.log(err)
-                    assert.equal(projectModified[0].comments.length, 0);
+                    assert.equal(afterProject[0].comments.length, 0);
                     // console.log(projectModified[0]);
                 });
                 // console.log(projectModified[0]);
