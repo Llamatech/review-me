@@ -13,8 +13,8 @@ if(Meteor.server)
                     'username': 'Llamatest'
                 }
             }
-        }
-    }
+        };
+    };
 
     describe('Projects', function() {
         beforeEach(function() {
@@ -53,7 +53,7 @@ if(Meteor.server)
         it('Should comment a project', function() {
             const project = Projects.find({}).fetch();
             // console.log(project[0]);
-            Meteor.call('projects.addComment', project[0]._id, 'Some comment', function(err, data) {
+            Meteor.call('projects.addComment', project[0]._id, 'Some comment', function() {
                 // console.log(err)
                 const projectModified = Projects.find({}).fetch();
                 assert.equal(projectModified[0].comments.length, 1);
@@ -63,7 +63,7 @@ if(Meteor.server)
 
         it('Should update mean rating of a project', function() {
             const project = Projects.find({}).fetch();
-            Meteor.call('projects.addRating', project[0]._id, 5, function(err, data) {
+            Meteor.call('projects.addRating', project[0]._id, 5, function() {
                 // console.log(err);
                 Meteor.user = function() {
                     return {
@@ -72,12 +72,12 @@ if(Meteor.server)
                                 'username': 'Llamatest2'
                             }
                         }
-                    }
+                    };
                 };
-                Meteor.call('projects.addRating', project[0]._id, 3, function(err, data) {
+                Meteor.call('projects.addRating', project[0]._id, 3, function() {
                     // console.log(err);
                     const projectModified = Projects.find({}).fetch();
-                    console.log(projectModified[0].ratings);
+                    // console.log(projectModified[0].ratings);
                     assert.equal(projectModified[0].ratings[0], 4);
                 });
             });
@@ -85,9 +85,9 @@ if(Meteor.server)
 
         it('An user can only rate a project once', function() {
             const project = Projects.find({}).fetch();
-            Meteor.call('projects.addRating', project[0]._id, 5, function(err, data) {
+            Meteor.call('projects.addRating', project[0]._id, 5, function() {
                 // console.log(err);
-                Meteor.call('projects.addRating', project[0]._id, 3, function(err, data) {
+                Meteor.call('projects.addRating', project[0]._id, 3, function() {
                     // console.log(err);
                     const projectModified = Projects.find({}).fetch();
                     // console.log(projectModified[0].ratings);
