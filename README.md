@@ -1,7 +1,10 @@
 # review-me
 The Internet Project Database - A system to review and rate FOSS projects hosted on Github
 
-## Build Status
+## Project info
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
+## Build status
 [![Build Status](https://travis-ci.org/Llamatech/review-me.svg?branch=master)](https://travis-ci.org/Llamatech/review-me)
 [![CircleCI](https://circleci.com/gh/Llamatech/review-me.svg?style=svg)](https://circleci.com/gh/Llamatech/review-me)
 [![Coverage Status](https://coveralls.io/repos/github/Llamatech/review-me/badge.svg?branch=master)](https://coveralls.io/github/Llamatech/review-me?branch=master)
