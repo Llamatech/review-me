@@ -1,4 +1,4 @@
-/* global Modules, BrowserPolicy */
+/* global Modules */
 
 let startup = () => {
     Modules.server.setEnvironmentVariables();
@@ -9,7 +9,8 @@ let startup = () => {
 };
 
 var _setBrowserPolicies = () => {
-    BrowserPolicy.content.allowOriginForAll( '*' );
+    // BrowserPolicy.content.allowOriginForAll( '*' );
+    // BrowserPolicy.content.allowEval();
 };
 
 Modules.server.startup = startup;
