@@ -24,9 +24,9 @@ test:
     - echo $METEOR_SETTINGS > settings-development.json
     - ./node_modules/.bin/eslint .:
         parallel: true
-    - meteor test --once --driver-package dispatch:mocha:
-        parallel: true
+    # - meteor test --once --driver-package dispatch:mocha:
+    #     parallel: true
     - meteor npm run coverage-app-unit:
         parallel: true
-    - cat .coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js || true
+    - cat .coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || true
 
