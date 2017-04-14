@@ -14,4 +14,5 @@ Meteor.startup(() => {
         };
     });
     Modules.server.startup();
+    // BrowserPolicy.content.allowEval();
 });

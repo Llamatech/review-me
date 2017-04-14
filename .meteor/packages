@@ -22,7 +22,7 @@ insecure@1.0.7                # Allow all DB writes from clients (for prototypin
 react-meteor-data
 accounts-github
 service-configuration
-browser-policy
+#browser-policy
 accounts-base
 accounts-password
 session
@@ -31,3 +31,5 @@ http
 practicalmeteor:mocha
 dburles:factory
 dispatch:mocha
+lmieulet:meteor-coverage
+practicalmeteor:mocha-console-runner
