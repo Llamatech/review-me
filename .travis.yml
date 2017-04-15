@@ -11,6 +11,7 @@ env:
     - MONGO_URL=mongodb://127.0.0.1:27017
     - ROOT_URL=http://review-me.margffoy-tuay.com
     - CXX=g++-4.8
+    - TEST_BROWSER_DRIVER=phantomjs
 
 addons:
   hosts:
