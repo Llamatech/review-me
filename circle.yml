@@ -8,6 +8,7 @@ machine:
     COVERALLS_REPO_TOKEN: hUyo0WxL7HxdL0tmwqpyKZAwJf4qlWujf
     MONGO_URL: mongodb://127.0.0.1:27017
     ROOT_URL: http://review-me.margffoy-tuay.com
+    TEST_BROWSER_DRIVER: phantomjs
   services:
     - mongod
   pre:
@@ -26,7 +27,7 @@ test:
         parallel: true
     # - meteor test --once --driver-package dispatch:mocha:
     #     parallel: true
-    - meteor npm run coverage-app-unit:
+    - bash runtests.sh:
         parallel: true
     - cat .coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || true
 
