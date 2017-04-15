@@ -45,9 +45,35 @@ if(Meteor.server)
         });
 
         it('Should find a newly created project', function() {
-            const result = Projects.find({});
+            // const result = Projects.find({});
+            var project = {
+                'url' : 'https://github.com/Llamatech/art-collection',
+                'description' : '',
+                'collaborator' : '',
+                'id' : 67649904,
+                'name' : 'art-collection',
+                'owner' : 'Llamatech',
+                'summary' : 'Identification and description of art oeuvres given its image.',
+                'webpage' : null,
+                'repo' : {
+                    'url' : 'https://github.com/Llamatech/art-collection',
+                    'fork' : false,
+                    'watchers' : 0,
+                    'forks' : 0,
+                    'stars' : 0,
+                    'language' : 'Python',
+                    'issues' : 0,
+                },
+                'parent_repo' : '',
+                'comments' : [],
+                'ratings' : [ 0, [] ],
+                'user' : 'cgarciahdez'
+            };
+            Meteor.call('projects.insert', project, function() {
+                const result = Projects.find({});
+                assert.equal(result.count(), 2);
+            });
             // console.log(result)
-            assert.equal(result.count(), 1);
         });
 
         it('Should comment a project', function() {
