@@ -42,6 +42,7 @@
     "eslint-plugin-react": "^6.10.0",
     "istanbul": "^0.4.5",
     "mocha-lcov-reporter": "^1.3.0",
+    "react-addons-test-utils": "^15.5.1",
     "spacejam": "https://github.com/serut/spacejam/tarball/windows-suppport-rc4"
   },
   "eslintConfig": {
