@@ -4,7 +4,7 @@
   "scripts": {
     "start": "meteor --settings settings-development.json",
     "lint": "eslint .",
-    "coverage-app-unit": "spacejam --driver-package=practicalmeteor:mocha-console-runner test --coverage 'out_lcovonly out_coverage out_html'",
+    "coverage-app-unit": "spacejam --driver-package=practicalmeteor:mocha-console-runner test --coverage 'out_lcovonly out_coverage out_html' --port 3004",
     "pretest": "npm run lint --silent",
     "staging": "xervo env set METEOR_SETTINGS \"$(cat settings-staging.json)\" -p 'App - Staging' && xervo deploy -f -p 'App - Staging'",
     "production": "xervo env set METEOR_SETTINGS \"$(cat settings-production.json)\" -p 'App - Production' && xervo deploy -f -p 'App - Production'"
