@@ -162,6 +162,9 @@ if(Meteor.isClient)
             const url_wrapper = info_wrapper.at(2);
             const repo_stats = info_wrapper.at(3);
             const stars_wrapper = info_wrapper.at(4);
+
+            // const onButtonClick = sinon.spy();
+            // console.log(info_header.childAt(0).childAt(0))
             // console.log(well.debug());
             // console.log(info_header.childAt(0).debug());
             chai.assert.equal(info_header.childAt(0).childAt(0).text(), '×');
@@ -174,6 +177,100 @@ if(Meteor.isClient)
             chai.assert.equal(repo_stats.childAt(2).text(), 'Watches: ' + testProject.repo.watchers);
             chai.assert.equal(stars_wrapper.childAt(0).props().value, testProject.ratings.avgRate);
             // chai.assert(false);
+        });
+
+        it("Should confirm project deletion", function() {
+            const testProject = Factory.build('project', {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : 'Lorem',
+                    'collaborator' : 'Ipsum',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : 'http://review-me.margffoy-tuay.com',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
+                    'user' : 'Llamatest'
+            });
+
+            const onProjectDeletion = sinon.spy();
+            const wrapper  = shallow(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
+            const well = wrapper.find(Well);
+            // console.log(well.debug());
+            const info_wrapper = well.children().children();
+            const info_header = info_wrapper.at(0);
+
+            const delete_button = info_header.childAt(0).childAt(0);
+            delete_button.simulate('click');
+            // console.log(wrapper.debug());
+            const confirmationDialog = wrapper.find(Well).children().children().at(1);
+            confirmationDialog.simulate('confirm');
+            console.log(wrapper.debug());
+
+            const deletionDialog = wrapper.find(Well).children().children().at(1);
+            chai.assert.equal(deletionDialog.props().title, 'Your project was successfully deleted');
+            deletionDialog.simulate('confirm');
+            chai.assert(onProjectDeletion.calledOnce);
+        });
+
+        it("Should confirm project was not deleted", function() {
+            const testProject = Factory.build('project', {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : 'Lorem',
+                    'collaborator' : 'Ipsum',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : 'http://review-me.margffoy-tuay.com',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
+                    'user' : 'Llamatest'
+            });
+
+            const onProjectDeletion = sinon.spy();
+            const wrapper  = shallow(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
+            const well = wrapper.find(Well);
+            // console.log(well.debug());
+            const info_wrapper = well.children().children();
+            const info_header = info_wrapper.at(0);
+
+            const delete_button = info_header.childAt(0).childAt(0);
+            delete_button.simulate('click');
+            // console.log(wrapper.debug());
+            const confirmationDialog = wrapper.find(Well).children().children().at(1);
+            confirmationDialog.simulate('cancel');
+            console.log(wrapper.debug());
+
+            const deletionDialog = wrapper.find(Well).children().children().at(1);
+            chai.assert.equal(deletionDialog.props().title, 'Your project was not deleted');
+            deletionDialog.simulate('confirm');
+            // chai.assert(onProjectDeletion.calledOnce);
         });
     });
 }
