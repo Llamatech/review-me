@@ -10,8 +10,14 @@ import {Projects} from '../../api/projects.js';
 import {Meteor} from 'meteor/meteor';
 
 
+
 if(Meteor.isClient)
 {
+
+    Meteor.userId = function() {
+        return '1213213';
+    };
+
     Meteor.user = function() {
         return {
             'services': {
@@ -26,7 +32,19 @@ if(Meteor.isClient)
 
     describe('Projects', function () {
 
-
+        beforeEach(function () {
+            console.log(Meteor.user());
+            const user = {
+                'services': {
+                    'github': {
+                        'username': 'Llamatest'
+                    }
+                }
+            }
+            // Meteor.call('createNewUser', user);
+            // Meteor.users.insert(user)
+            // console.log(Meteor.users.find({}).fetch());
+        });
 
         it("Should Render correctly", function () {
             const testProject = Factory.build('project', {
@@ -57,6 +75,6 @@ if(Meteor.isClient)
             console.log(result.hasClass('proyecto'));
           chai.assert(result.hasClass('proyecto'));
           // chai.assert.equal(true, true, "Test");
-        })
+        });
     })
 }
