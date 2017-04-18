@@ -27,6 +27,7 @@ test:
         parallel: true
     # - meteor test --once --driver-package dispatch:mocha:
     #     parallel: true
+    - echo $TEST_BROWSER_DRIVER
     - bash runtests.sh:
         parallel: true
     - cat .coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || true
