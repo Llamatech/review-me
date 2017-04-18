@@ -13,6 +13,11 @@ import {Meteor} from 'meteor/meteor';
 
 if(Meteor.isClient)
 {
+
+    Meteor.userId = function() {
+        return '1213213';
+    };
+
     Meteor.user = function() {
         return {
             'services': {
