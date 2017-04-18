@@ -50,6 +50,7 @@ print(lines)
 idx = lines.find(FAILED)
 num_failed = int(lines[idx:idx + len(FAILED) + 2][-1])
 
+proc_fork.expect(u'Phantom[:][:]exit[(][)] called')
 
 proc_fork.close()
 
