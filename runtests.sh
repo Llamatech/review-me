@@ -11,7 +11,7 @@ printf "meteor npm run coverage-app-unit"
 # timeout 240s meteor npm run coverage-app-unit
 chmod 755 test.py
 ./test.py
-printf "Done!\n"
+# printf "Done!\n"
 # else
     # exit $STATUS_CODE
 # fi
