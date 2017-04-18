@@ -5,6 +5,7 @@ import {Mongo} from 'meteor/mongo';
 import ObjectId from 'bson-objectid';
 import {ValidatedMethod} from 'meteor/mdg:validated-method';
 import {SimpleSchema} from 'meteor/aldeed:simple-schema';
+import {DDPRateLimiter} from 'meteor/ddp-rate-limiter';
 
 
 export const Projects = new Mongo.Collection('projects');
@@ -72,7 +73,6 @@ export const insertProject = new ValidatedMethod({
         'project.user': { type: String }
     }).validator(),
     run({project}) {
-
         Projects.insert(project);
     }
 });
@@ -165,10 +165,30 @@ export const eraseProject = new ValidatedMethod({
     run({projId}) {
         if(Projects.find(projId).fetch()[0].user!==Meteor.user().services.github.username){
             throw new Meteor.Error('projects.eraseProject.unauthorized','Cannot erase this project because you didn\'t add it');
+
         }
         Projects.remove(projId);
     }
 });
+
+// Get list of all method names on Lists
+const LISTS_METHODS = _.pluck([
+    insertProject,
+    addComment,
+    addRating,
+    removeComment,
+    eraseProject,
+], 'name');
+// Only allow 5 list operations per connection per second
+if (Meteor.isServer) {
+    DDPRateLimiter.addRule({
+        name(name) {
+            return _.contains(LISTS_METHODS, name);
+        },
+    // Rate limit per connection ID
+        connectionId() { return true; }
+    }, 5, 1000);
+}
 
 
 // export const addComment = new ValidatedMethod({

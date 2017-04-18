@@ -63,8 +63,6 @@ class App extends Component {
 
     addProject(pr) {
         // Meteor.call('projects.insert', pr);
-
-
         const project = pr;
         const url = require('url-parse');
 

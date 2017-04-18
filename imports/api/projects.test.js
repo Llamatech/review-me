@@ -39,8 +39,8 @@ if(Meteor.server)
                 },
                 'parent_repo' : '',
                 'comments' : [],
-                'ratings' : [ 0, [] ],
-                'user' : 'andfoy'
+                'ratings' : {avgRate:0, ratings:[]},
+                'user' : 'Llamatest2'
             });
         });
 
@@ -66,10 +66,10 @@ if(Meteor.server)
                 },
                 'parent_repo' : '',
                 'comments' : [],
-                'ratings' : [ 0, [] ],
+                'ratings' : {avgRate:0, ratings:[]},
                 'user' : 'cgarciahdez'
             };
-            Meteor.call('projects.insert', project, function() {
+            Meteor.call('projects.insert', {project}, function() {
                 const result = Projects.find({});
                 assert.equal(result.count(), 2);
             });
@@ -79,7 +79,7 @@ if(Meteor.server)
         it('Should comment a project', function() {
             const project = Projects.find({}).fetch();
             // console.log(project[0]);
-            Meteor.call('projects.addComment', project[0]._id, 'Some comment', function() {
+            Meteor.call('projects.addComment', {projId:project[0]._id, comment:'Some comment'}, function() {
                 // console.log(err)
                 const projectModified = Projects.find({}).fetch();
                 assert.equal(projectModified[0].comments.length, 1);
@@ -89,7 +89,7 @@ if(Meteor.server)
 
         it('Should update mean rating of a project', function() {
             const project = Projects.find({}).fetch();
-            Meteor.call('projects.addRating', project[0]._id, 5, function() {
+            Meteor.call('projects.addRating', {projId:project[0]._id, newRate:5}, function() {
                 // console.log(err);
 
                 Meteor.user = function() {
@@ -102,31 +102,31 @@ if(Meteor.server)
                     };
                 };
 
-                Meteor.call('projects.addRating', project[0]._id, 3, function() {
+                Meteor.call('projects.addRating', {projId:project[0]._id, newRate:3}, function() {
                     // console.log(err);
                     const projectModified = Projects.find({}).fetch();
 
-                    assert.equal(projectModified[0].ratings[0], 4);
+                    assert.equal(projectModified[0].ratings.avgRate, 4);
                 });
             });
         });
 
         it('An user can only rate a project once', function() {
             const project = Projects.find({}).fetch();
-            Meteor.call('projects.addRating', project[0]._id, 5, function() {
+            Meteor.call('projects.addRating', {projId:project[0]._id, newRate:5}, function() {
                 // console.log(err);
-                Meteor.call('projects.addRating', project[0]._id, 3, function() {
+                Meteor.call('projects.addRating', {projId:project[0]._id, newRate:3}, function() {
                     // console.log(err);
                     const projectModified = Projects.find({}).fetch();
                     // console.log(projectModified[0].ratings);
-                    assert.equal(projectModified[0].ratings[0], 3);
+                    assert.equal(projectModified[0].ratings.avgRate, 3);
                 });
             });
         });
 
         it('Should not find erased project', function() {
             const project = Projects.find({}).fetch();
-            Meteor.call('projects.eraseProject', project[0]._id, function() {
+            Meteor.call('projects.eraseProject', {projId:project[0]._id}, function() {
                 const afterProject = Projects.find({}).fetch();
                 assert.equal(afterProject.length, 0);
             });
@@ -135,13 +135,21 @@ if(Meteor.server)
         it('Should not find erased comment', function() {
             const project = Projects.find({}).fetch();
             // console.log(project[0]);
-            Meteor.call('projects.addComment', project[0]._id, 'Some comment', function() {
+            Meteor.call('projects.addComment', {projId:project[0]._id, comment:'Some comment'}, function() {
+                Meteor.user = function() {
+                    return {
+                        'services': {
+                            'github': {
+                                'username': 'Llamatest'
+                            }
+                        }
+                    };
+                };
                 // console.log(err)
                 const projectModified = Projects.find({}).fetch();
                 // console.log(projectModified[0]);
-                Meteor.call('projects.removeComment', projectModified[0]._id, projectModified[0].comments[0]._id, function() {
+                Meteor.call('projects.removeComment', {projId:projectModified[0]._id, commId:projectModified[0].comments[0]._id}, function() {
                     const afterProject = Projects.find({}).fetch();
-                    // console.log(err)
                     assert.equal(afterProject[0].comments.length, 0);
                     // console.log(projectModified[0]);
                 });
