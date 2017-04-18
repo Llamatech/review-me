@@ -13,7 +13,7 @@ class Proyecto extends React.Component {
         super(props);
         var rating = 0;
         if (props.proyecto.ratings) {
-            rating = props.proyecto.ratings[0];
+            rating = props.proyecto.ratings.avgRate;
         }
         this.state = {
             avgRating: rating,
@@ -26,11 +26,11 @@ class Proyecto extends React.Component {
 
     addRating(newRate) {
         if (Meteor.user()) {
-            Meteor.call('projects.addRating', this.props.proyecto._id, newRate, (err, res) => {
-                this.setState({avgRating: this.props.proyecto.ratings[0]});
+            Meteor.call('projects.addRating', {projId:this.props.proyecto._id, newRate:newRate}, (err, res) => {
+                this.setState({avgRating: this.props.proyecto.ratings.avgRate});
             });
         } else {
-            this.setState({avgRating: this.props.proyecto.ratings[0]});
+            this.setState({avgRating: this.props.proyecto.ratings.avgRate});
         }
     }
 
@@ -86,7 +86,7 @@ class Proyecto extends React.Component {
     }
 
     eraseComment(commId) {
-        Meteor.call('projects.removeComment', this.props.proyecto._id, commId, (err, res) => {
+        Meteor.call('projects.removeComment', {projId:this.props.proyecto._id, commId:commId}, (err, res) => {
             this.setState({comments: this.props.proyecto.comments});
         });
     }
@@ -97,7 +97,7 @@ class Proyecto extends React.Component {
         } else if (!Meteor.user()) {
             this.setState({alert: true, alertText: 'You have to be logged in to comment'});
         } else {
-            Meteor.call('projects.addComment', this.props.proyecto._id, text, (err, res) => {
+            Meteor.call('projects.addComment', {projId:this.props.proyecto._id, comment:text}, (err, res) => {
                 this.setState({comments: this.props.proyecto.comments, alert: false});
             });
 
