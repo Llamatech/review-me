@@ -67,7 +67,9 @@ if(Meteor.isClient)
                     },
                     'parent_repo' : '',
                     'comments' : [],
-                    'ratings' : [ 0, [] ],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
                     'user' : 'andfoy'
             });
 
@@ -97,7 +99,9 @@ if(Meteor.isClient)
                     },
                     'parent_repo' : '',
                     'comments' : [],
-                    'ratings' : [ 3, [] ],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
                     'user' : 'andfoy'
             });
 
@@ -118,7 +122,7 @@ if(Meteor.isClient)
             chai.assert.equal(repo_stats.childAt(0).text(), 'Forks: ' + testProject.repo.forks);
             chai.assert.equal(repo_stats.childAt(1).text(), 'Stars: ' + testProject.repo.stars);
             chai.assert.equal(repo_stats.childAt(2).text(), 'Watches: ' + testProject.repo.watchers);
-            chai.assert.equal(stars_wrapper.childAt(0).props().value, testProject.ratings[0]);
+            chai.assert.equal(stars_wrapper.childAt(0).props().value, testProject.ratings.avgRate);
             // chai.assert(false);
         });
     });
