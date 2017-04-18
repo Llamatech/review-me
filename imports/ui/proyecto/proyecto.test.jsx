@@ -75,6 +75,6 @@ if(Meteor.isClient)
             console.log(result.hasClass('proyecto'));
           chai.assert(result.hasClass('proyecto'));
           // chai.assert.equal(true, true, "Test");
-        })
+        });
     })
 }

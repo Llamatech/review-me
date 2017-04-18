@@ -1,8 +1,8 @@
 # https://circleci.com/gh/Llamatech/review-me
 
 machine:
-  hosts:
-    review-me.margffoy-tuay.com: 127.0.0.1:3000
+  # hosts:
+    # review-me.margffoy-tuay.com: 127.0.0.1:3000
   environment:
     # For Coveralls
     COVERALLS_REPO_TOKEN: hUyo0WxL7HxdL0tmwqpyKZAwJf4qlWujf
@@ -11,6 +11,8 @@ machine:
     TEST_BROWSER_DRIVER: phantomjs
   services:
     - mongod
+  # python:
+    # version: 3.6.0
   pre:
     - meteor || curl https://install.meteor.com | /bin/sh
   post:
@@ -18,6 +20,8 @@ machine:
 
 dependencies:
   override:
+    - pip install -U pip
+    - pip install pexpect
     - meteor npm install
 
 test:
@@ -30,5 +34,6 @@ test:
     - echo $TEST_BROWSER_DRIVER
     - bash runtests.sh:
         parallel: true
+    # - meteor test --once --driver-package dispatch:mocha
     - cat .coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js || true
 
