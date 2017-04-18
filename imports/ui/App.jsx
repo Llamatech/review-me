@@ -58,10 +58,13 @@ class App extends Component {
     }
 
     eraseProject(projId) {
-        Meteor.call('projects.eraseProject', projId);
+        Meteor.call('projects.eraseProject', {projId:projId});
     }
 
     addProject(pr) {
+        // Meteor.call('projects.insert', pr);
+
+
         const project = pr;
         const url = require('url-parse');
 
@@ -97,10 +100,9 @@ class App extends Component {
             project.repo.language = info.language;
             project.repo.issues = info.open_issues;
             project.comments = [];
-            project.ratings = [0, []
-            ];
+            project.ratings = { avgRate: 0, ratings:[]};
             project.user = Meteor.user().services.github.username;
-            Meteor.call('projects.insert', project);
+            Meteor.call('projects.insert', {project});
         });
         // .catch((error) => {
         //     error
