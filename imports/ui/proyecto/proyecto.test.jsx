@@ -34,6 +34,7 @@ if(Meteor.isClient)
     Factory.define('project', Projects, {});
 
     describe('Projects', function () {
+        this.timeout(15000);
 
         beforeEach(function () {
             // console.log(Meteor.user());
