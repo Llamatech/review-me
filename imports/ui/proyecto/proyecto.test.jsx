@@ -2,7 +2,7 @@
 
 import { Factory } from 'meteor/dburles:factory';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { chai, expect } from 'meteor/practicalmeteor:chai';
 
 import Proyecto from './proyecto.jsx';
@@ -44,6 +44,36 @@ if(Meteor.isClient)
                     }
                 }
             }
+            // const project = {
+            //         'url' : 'https://github.com/Llamatech/review-me',
+            //         'description' : 'Lorem',
+            //         'collaborator' : 'Ipsum',
+            //         'id' : 83160698,
+            //         'name' : 'review-me',
+            //         'owner' : 'Llamatech',
+            //         'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+            //         'webpage' : 'http://review-me.margffoy-tuay.com',
+            //         'repo' : {
+            //             'url' : 'https://github.com/Llamatech/review-me',
+            //             'fork' : false,
+            //             'watchers' : 0,
+            //             'forks' : 8,
+            //             'stars' : 0,
+            //             'language' : 'JavaScript',
+            //             'issues' : 3,
+            //         },
+            //         'parent_repo' : '',
+            //         'comments' : [],
+            //         'ratings' : {
+            //             'avgRate': 0,
+            //             'ratings': []
+            //         },
+            //         'user' : 'Llamatest'
+            // };
+
+            // Meteor.call('projects.insert', {'project': project}, (err, data) => {
+            //     console.log(err);
+            // });
         });
 
         it("Should Render component <Proyecto/>", function () {
@@ -271,6 +301,61 @@ if(Meteor.isClient)
             chai.assert.equal(deletionDialog.props().title, 'Your project was not deleted');
             deletionDialog.simulate('confirm');
             // chai.assert(onProjectDeletion.calledOnce);
+        });
+
+        it("Should update rating (user logged in)", function() {
+            const project = {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : 'Lorem',
+                    'collaborator' : 'Ipsum',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : 'http://review-me.margffoy-tuay.com',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 0,
+                        'ratings': []
+                    },
+                    'user' : 'Llamatest'
+            };
+
+            // const testProject = Factory.build('project', project);
+
+            Meteor.call('projects.insert', {'project': project}, (err, data) => {
+                // console.log(err);
+            });
+
+            const testProject = Projects.find({}).fetch()[0]
+            console.log(testProject);
+            const onProjectDeletion = sinon.spy();
+            const wrapper  = mount(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
+            const well = wrapper.find(Well);
+            const info_wrapper = well.children().children();
+            const stars_wrapper = info_wrapper.at(4);
+            const modal_wrapper = info_wrapper.at(5).childAt(1);
+            const show_btn = modal_wrapper.find(Button);
+            // console.log(show_btn.debug());
+            show_btn.simulate('click');
+            // const modal_wrapper_2 = info_wrapper.at(5).childAt(1);
+            const modal_node = modal_wrapper.first().childAt(1);
+            // console.log(modal_wrapper.debug());
+            modal_wrapper.props().addRating(5);
+            modal_wrapper.props().addRating(4);
+            // wrapper.update();
+            console.log(wrapper.update().state());
+            chai.assert.equal(Projects.find({}).fetch()[0].ratings.avgRate, 4);
         });
     });
 }
