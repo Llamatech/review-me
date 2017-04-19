@@ -36,7 +36,7 @@ if(Meteor.isClient)
     describe('Projects', function () {
 
         beforeEach(function () {
-            console.log(Meteor.user());
+            // console.log(Meteor.user());
             const user = {
                 'services': {
                     'github': {
@@ -104,7 +104,7 @@ if(Meteor.isClient)
             });
 
             const result  = shallow(<Proyecto id={testProject._id} proyecto={testProject} /> );
-            console.log(result.hasClass('proyecto'));
+            // console.log(result.hasClass('proyecto'));
           chai.assert(result.hasClass('proyecto'));
         });
 
@@ -144,7 +144,7 @@ if(Meteor.isClient)
             const url_wrapper = info_wrapper.at(2);
             const repo_stats = info_wrapper.at(3);
             const stars_wrapper = info_wrapper.at(4);
-            console.log(stars_wrapper.debug());
+            // console.log(stars_wrapper.debug());
             chai.assert.equal(info_header.children().at(0).text(), testProject.name);
             chai.assert.equal(info_header.children().at(1).text(), testProject.owner);
             chai.assert.equal(summary_wrapper.text(), testProject.summary);
@@ -248,7 +248,7 @@ if(Meteor.isClient)
             // console.log(wrapper.debug());
             const confirmationDialog = wrapper.find(Well).children().children().at(1);
             confirmationDialog.simulate('confirm');
-            console.log(wrapper.debug());
+            // console.log(wrapper.debug());
 
             const deletionDialog = wrapper.find(Well).children().children().at(1);
             chai.assert.equal(deletionDialog.props().title, 'Your project was successfully deleted');
@@ -295,7 +295,7 @@ if(Meteor.isClient)
             // console.log(wrapper.debug());
             const confirmationDialog = wrapper.find(Well).children().children().at(1);
             confirmationDialog.simulate('cancel');
-            console.log(wrapper.debug());
+            // console.log(wrapper.debug());
 
             const deletionDialog = wrapper.find(Well).children().children().at(1);
             chai.assert.equal(deletionDialog.props().title, 'Your project was not deleted');
@@ -338,7 +338,7 @@ if(Meteor.isClient)
             });
 
             const testProject = Projects.find({}).fetch()[0]
-            console.log(testProject);
+            // console.log(testProject);
             const onProjectDeletion = sinon.spy();
             const wrapper  = mount(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
             const well = wrapper.find(Well);
@@ -354,7 +354,7 @@ if(Meteor.isClient)
             modal_wrapper.props().addRating(5);
             modal_wrapper.props().addRating(4);
             // wrapper.update();
-            console.log(wrapper.update().state());
+            // console.log(wrapper.update().state());
             chai.assert.equal(Projects.find({}).fetch()[0].ratings.avgRate, 4);
         });
     });
