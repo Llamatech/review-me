@@ -167,6 +167,48 @@ if (Meteor.isClient) {
             expect(wrapper.find(Proyecto)).to.have.length(2);
         });
 
+        it('Should not render projects if there are none', function() {
+
+            const wrapper = shallow(<Proyectos proyectos={null}/>);
+            console.log(wrapper.debug());
+            expect(wrapper.find('.proyectos')).to.have.length(0);
+            expect(wrapper.find('.noProjs')).to.have.length(1);
+        });
+
+        it('Should Render my projects', function() {
+            const testProjects = Factory.build('project', {
+                'url': 'https://github.com/Llamatech/review-me',
+                'description': '',
+                'collaborator': '',
+                'id': 83160698,
+                'name': 'review-me',
+                'owner': 'Llamatech',
+                'summary': 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                'webpage': null,
+                'repo': {
+                    'url': 'https://github.com/Llamatech/review-me',
+                    'fork': false,
+                    'watchers': 0,
+                    'forks': 8,
+                    'stars': 0,
+                    'language': 'JavaScript',
+                    'issues': 3
+                },
+                'parent_repo': '',
+                'comments': [
+                    'Holaa!', 'Love iit'
+                ],
+                'ratings': {
+                    'avgRate': 3
+                },
+                'user': 'Llamatest'
+            });
+            const wrapper = shallow(<Proyectos proyectos={[testProjects]} mine={true}/>);
+            console.log(wrapper.children().children().children().at(0).debug());
+            chai.assert.equal(wrapper.children().children().children().at(0).text(),'My projects');
+            expect(wrapper.find(Button)).to.have.length(1);
+        });
+
         // it("Should render a complete project", function() {
         //     const testProject = Factory.build('project', {
         //             'url' : 'https://github.com/Llamatech/review-me',
