@@ -111,7 +111,7 @@ class PModal extends React.Component {
                 <div>
                 </div>
                 :
-                <div>
+                <div id="notLogged">
                   <p>To leave a review or rate this project, use your github user to <a onClick={()=>this.props.login()}>sign in!</a></p>
                 </div>
               }
