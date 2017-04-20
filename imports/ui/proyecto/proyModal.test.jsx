@@ -214,6 +214,7 @@ if(Meteor.isClient)
             const logged = info.find('#notLogged');
             //.props().value
             expect(logged).to.have.length(1);
+            chai.assert.equal(logged.text(),'To leave a review or rate this project, use your github user to sign in!')
             Meteor.user = function() {
                 return {
                     'services': {
