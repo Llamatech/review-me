@@ -38,43 +38,6 @@ if(Meteor.isClient)
 
         beforeEach(function () {
             // console.log(Meteor.user());
-            const user = {
-                'services': {
-                    'github': {
-                        'username': 'Llamatest'
-                    }
-                }
-            }
-            // const project = {
-            //         'url' : 'https://github.com/Llamatech/review-me',
-            //         'description' : 'Lorem',
-            //         'collaborator' : 'Ipsum',
-            //         'id' : 83160698,
-            //         'name' : 'review-me',
-            //         'owner' : 'Llamatech',
-            //         'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
-            //         'webpage' : 'http://review-me.margffoy-tuay.com',
-            //         'repo' : {
-            //             'url' : 'https://github.com/Llamatech/review-me',
-            //             'fork' : false,
-            //             'watchers' : 0,
-            //             'forks' : 8,
-            //             'stars' : 0,
-            //             'language' : 'JavaScript',
-            //             'issues' : 3,
-            //         },
-            //         'parent_repo' : '',
-            //         'comments' : [],
-            //         'ratings' : {
-            //             'avgRate': 0,
-            //             'ratings': []
-            //         },
-            //         'user' : 'Llamatest'
-            // };
-
-            // Meteor.call('projects.insert', {'project': project}, (err, data) => {
-            //     console.log(err);
-            // });
         });
 
         it("Should Render component <Proyecto/>", function () {
@@ -354,9 +317,189 @@ if(Meteor.isClient)
             // console.log(modal_wrapper.debug());
             modal_wrapper.props().addRating(5);
             modal_wrapper.props().addRating(4);
+            // modal_node.simulate('hide');
             // wrapper.update();
             // console.log(wrapper.update().state());
             chai.assert.equal(Projects.find({}).fetch()[0].ratings.avgRate, 4);
+
+            // Meteor.call('projects.eraseProject', testProject._id);
+        });
+
+        it('Should not comment a project if text has less than 5 characters', function() {
+            const project = {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : 'Lorem',
+                    'collaborator' : 'Ipsum',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : 'http://review-me.margffoy-tuay.com',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 0,
+                        'ratings': []
+                    },
+                    'user' : 'Llamatest'
+            };
+
+            // const testProject = Factory.build('project', project);
+
+            Meteor.call('projects.insert', {'project': project}, (err, data) => {
+                // console.log(err);
+            });
+
+            const testProject = Projects.find({}).fetch()[0];
+            const onProjectDeletion = sinon.spy();
+            const wrapper  = shallow(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
+            const well = wrapper.find(Well);
+            const info_wrapper = well.children().children();
+            const stars_wrapper = info_wrapper.at(4);
+            const modal_wrapper = info_wrapper.at(5).childAt(1);
+            // const show_btn = modal_wrapper.find(Button);
+            // console.log(show_btn.debug());
+            // show_btn.simulate('click');
+
+            // const modal_node = modal_wrapper.first().childAt(1);
+            console.log(modal_wrapper.debug());
+            modal_wrapper.props().saveComment('1234');
+            chai.assert.equal(wrapper.state('alertText'), 'Comments should be longer than 5 characters!');
+
+        });
+
+        it('Should comment a project', function() {
+
+            const project = {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : 'Lorem',
+                    'collaborator' : 'Ipsum',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : 'http://review-me.margffoy-tuay.com',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 0,
+                        'ratings': []
+                    },
+                    'user' : 'Llamatest'
+            };
+
+            // Meteor.user = function() {
+            //     return undefined;
+            // }
+
+            // const testProject = Factory.build('project', project);
+
+            Meteor.call('projects.insert', {'project': project}, (err, data) => {
+            //     // console.log(err);
+            });
+
+            const testProject = Projects.find({}).fetch()[0];
+            const onProjectDeletion = sinon.spy();
+            const wrapper  = shallow(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
+            const well = wrapper.find(Well);
+            const info_wrapper = well.children().children();
+            const stars_wrapper = info_wrapper.at(4);
+            const modal_wrapper = info_wrapper.at(5).childAt(1);
+            // const show_btn = modal_wrapper.find(Button);
+            // console.log(show_btn.debug());
+            // show_btn.simulate('click');
+
+            // const modal_node = modal_wrapper.first().childAt(1);
+            // console.log(modal_wrapper.debug());
+            modal_wrapper.props().saveComment('Full Comment');
+            const afterProject = Projects.find({}).fetch()[0];
+            // console.log(afterProject.comments);
+            chai.assert.equal(afterProject.comments[0].text, 'Full Comment');
+            // console.log(modal_wrapper.props().comments);
+            // chai.assert.equal(wrapper.state('alertText'), 'Comments should be longer than 5 characters!');
+
+        });
+
+        it('Should delete a comment', function() {
+
+            const project = {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : 'Lorem',
+                    'collaborator' : 'Ipsum',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : 'http://review-me.margffoy-tuay.com',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 0,
+                        'ratings': []
+                    },
+                    'user' : 'Llamatest'
+            };
+
+            // Meteor.user = function() {
+            //     return undefined;
+            // }
+
+            // const testProject = Factory.build('project', project);
+
+            Meteor.call('projects.insert', {'project': project}, (err, data) => {
+            //     // console.log(err);
+            });
+
+            const testProject = Projects.find({}).fetch().slice(-1)[0];
+            const onProjectDeletion = sinon.spy();
+            const wrapper  = shallow(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
+            const well = wrapper.find(Well);
+            const info_wrapper = well.children().children();
+            const stars_wrapper = info_wrapper.at(4);
+            const modal_wrapper = info_wrapper.at(5).childAt(1);
+            // const show_btn = modal_wrapper.find(Button);
+            // console.log(show_btn.debug());
+            // show_btn.simulate('click');
+
+            // const modal_node = modal_wrapper.first().childAt(1);
+            // console.log(modal_wrapper.debug());
+            modal_wrapper.props().saveComment('Comment');
+            const afterProject = Projects.find({}).fetch().slice(-1)[0];
+            // console.log(afterProject.comments);
+            chai.assert.equal(afterProject.comments[0].text, 'Comment');
+            modal_wrapper.props().eraseComment(afterProject.comments[0]._id);
+            const noCommentProject = Projects.find({}).fetch().slice(-1)[0];
+            chai.assert.equal(noCommentProject.comments.length, 0);
+            // console.log(modal_wrapper.props().comments);
+            // chai.assert.equal(wrapper.state('alertText'), 'Comments should be longer than 5 characters!');
+
         });
     });
 }

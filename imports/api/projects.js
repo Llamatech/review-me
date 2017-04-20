@@ -139,6 +139,7 @@ export const removeComment = new ValidatedMethod({
         'commId._str': { type: String }
     }).validator(),
     run({projId, commId}) {
+        // console.log(commId);
         const comments = Projects.find(projId).fetch()[0].comments;
         for(comment in comments){
             if(comment.commId===commId && !comment.owner===Meteor.user().services.github.username){
