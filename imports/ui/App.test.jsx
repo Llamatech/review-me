@@ -1,19 +1,20 @@
+
 /* eslint-disable no-undef,
  no-unused-vars, no-debugger */
-import {Factory} from 'meteor/dburles:factory';
+import { Factory } from 'meteor/dburles:factory';
 import React from 'react';
-import {shallow, mount} from 'enzyme';
-import {chai, expect} from 'meteor/practicalmeteor:chai';
+import { shallow, mount } from 'enzyme';
+import { chai, expect } from 'meteor/practicalmeteor:chai';
 
-import Proyectos from './proyectos.jsx';
-import Proyecto from './proyecto.jsx';
-import {Projects} from '../../api/projects.js';
+import {Projects} from '../api/projects.js';
 import {Meteor} from 'meteor/meteor';
+import App from './App.jsx';
 
-import {Button, Modal, Tooltip} from 'react-bootstrap';
+import { Button, Modal, Tooltip } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 
-if (Meteor.isClient) {
+if(Meteor.isClient)
+{
 
     Meteor.userId = function() {
         return '1213213';
@@ -31,10 +32,10 @@ if (Meteor.isClient) {
 
     Factory.define('project', Projects, {});
 
-    describe('G_Proyectos', function() {
+    describe('App', function () {
         this.timeout(15000);
 
-        beforeEach(function() {
+        beforeEach(function () {
             // console.log(Meteor.user());
             const user = {
                 'services': {
@@ -46,167 +47,10 @@ if (Meteor.isClient) {
 
         });
 
-        it('Should Render component <Proyectos/>', function() {
-            const testProjects = Factory.build('project', {
-                'url': 'https://github.com/Llamatech/review-me',
-                'description': '',
-                'collaborator': '',
-                'id': 83160698,
-                'name': 'review-me',
-                'owner': 'Llamatech',
-                'summary': 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
-                'webpage': null,
-                'repo': {
-                    'url': 'https://github.com/Llamatech/review-me',
-                    'fork': false,
-                    'watchers': 0,
-                    'forks': 8,
-                    'stars': 0,
-                    'language': 'JavaScript',
-                    'issues': 3
-                },
-                'parent_repo': '',
-                'comments': [
-                    'Holaa!', 'Love iit'
-                ],
-                'ratings': {
-                    'avgRate': 3
-                },
-                'user': 'Llamatest'
-            });
+        it('Should Render component <App/>', function () {
 
-            const prj = Factory.define('project2', Projects, {
-                'url': 'https://github.com/airbnb/enzyme/',
-                'description': 'aa',
-                'collaborator': 'aa',
-                'id': 83160698,
-                'name': 'enzyme',
-                'owner': 'Aribnb',
-                'summary': 'Airbnb - air bnb',
-                'webpage': "holi.com",
-                'repo': {
-                    'url': 'https://github.com/airbnb/enzyme/',
-                    'fork': false,
-                    'watchers': 345,
-                    'forks': 34,
-                    'stars': 243,
-                    'language': 'Java',
-                    'issues': 76
-                },
-                'parent_repo': '',
-                'comments': [
-                    'Holaa!', 'Love iit', 'Tha beeest'
-                ],
-                'ratings': {
-                    'avgRate': 5
-                },
-                'user': 'Llamatest'
-            });
-            const result = shallow(<Proyectos proyectos={[testProjects, prj]}/>);
-            chai.assert(result.hasClass('proyectos'));
-        });
-
-        it('Should Render the correct number of projects', function() {
-            const testProjects = Factory.build('project', {
-                'url': 'https://github.com/Llamatech/review-me',
-                'description': '',
-                'collaborator': '',
-                'id': 83160698,
-                'name': 'review-me',
-                'owner': 'Llamatech',
-                'summary': 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
-                'webpage': null,
-                'repo': {
-                    'url': 'https://github.com/Llamatech/review-me',
-                    'fork': false,
-                    'watchers': 0,
-                    'forks': 8,
-                    'stars': 0,
-                    'language': 'JavaScript',
-                    'issues': 3
-                },
-                'parent_repo': '',
-                'comments': [
-                    'Holaa!', 'Love iit'
-                ],
-                'ratings': {
-                    'avgRate': 3
-                },
-                'user': 'Llamatest'
-            });
-
-            const prj = Factory.define('project2', Projects, {
-                'url': 'https://github.com/airbnb/enzyme/',
-                'description': 'aa',
-                'collaborator': 'aa',
-                'id': 83160698,
-                'name': 'enzyme',
-                'owner': 'Aribnb',
-                'summary': 'Airbnb - air bnb',
-                'webpage': "holi.com",
-                'repo': {
-                    'url': 'https://github.com/airbnb/enzyme/',
-                    'fork': false,
-                    'watchers': 345,
-                    'forks': 34,
-                    'stars': 243,
-                    'language': 'Java',
-                    'issues': 76
-                },
-                'parent_repo': '',
-                'comments': [
-                    'Holaa!', 'Love iit', 'Tha beeest'
-                ],
-                'ratings': {
-                    'avgRate': 5
-                },
-                'user': 'Llamatest'
-            });
-            const wrapper = shallow(<Proyectos proyectos={[testProjects, prj]}/>);
-            console.log(wrapper.debug());
-            expect(wrapper.find(Proyecto)).to.have.length(2);
-        });
-
-        it('Should not render projects if there are none', function() {
-
-            const wrapper = shallow(<Proyectos proyectos={null}/>);
-            console.log(wrapper.debug());
-            expect(wrapper.find('.proyectos')).to.have.length(0);
-            expect(wrapper.find('.noProjs')).to.have.length(1);
-        });
-
-        it('Should Render my projects', function() {
-            const testProjects = Factory.build('project', {
-                'url': 'https://github.com/Llamatech/review-me',
-                'description': '',
-                'collaborator': '',
-                'id': 83160698,
-                'name': 'review-me',
-                'owner': 'Llamatech',
-                'summary': 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
-                'webpage': null,
-                'repo': {
-                    'url': 'https://github.com/Llamatech/review-me',
-                    'fork': false,
-                    'watchers': 0,
-                    'forks': 8,
-                    'stars': 0,
-                    'language': 'JavaScript',
-                    'issues': 3
-                },
-                'parent_repo': '',
-                'comments': [
-                    'Holaa!', 'Love iit'
-                ],
-                'ratings': {
-                    'avgRate': 3
-                },
-                'user': 'Llamatest'
-            });
-            const wrapper = shallow(<Proyectos proyectos={[testProjects]} mine={true}/>);
-            console.log(wrapper.children().children().children().at(0).debug());
-            chai.assert.equal(wrapper.children().children().children().at(0).text(),'My projects');
-            expect(wrapper.find(Button)).to.have.length(1);
+            const result  = shallow(<App />);
+            //chai.assert(result.hasClass('app'));
         });
 
         // it("Should render a complete project", function() {
@@ -425,7 +269,7 @@ if (Meteor.isClient) {
         //
         //     const wrapper  = shallow(<PModal proyecto={testProject}
         //         avgRating={testProject.ratings.avgRate} comments={testProject.comments} />);
-        //     console.log(wrapper.instance())
+        //     // console.log(wrapper.instance())
         //     wrapper.instance().modalClose();
         //     const modal = wrapper.find(Modal);
         //
