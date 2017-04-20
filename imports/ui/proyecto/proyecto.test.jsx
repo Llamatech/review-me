@@ -1,5 +1,6 @@
 // debugger;
-
+/* eslint-disable no-undef,
+ no-unused-vars, no-debugger */
 import { Factory } from 'meteor/dburles:factory';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
@@ -44,7 +45,7 @@ if(Meteor.isClient)
                         'username': 'Llamatest'
                     }
                 }
-            }
+            };
             // const project = {
             //         'url' : 'https://github.com/Llamatech/review-me',
             //         'description' : 'Lorem',
@@ -77,7 +78,7 @@ if(Meteor.isClient)
             // });
         });
 
-        it("Should Render component <Proyecto/>", function () {
+        it('Should Render component <Proyecto/>', function () {
             const testProject = Factory.build('project', {
                     'url' : 'https://github.com/Llamatech/review-me',
                     'description' : '',

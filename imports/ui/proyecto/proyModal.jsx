@@ -27,7 +27,7 @@ class PModal extends React.Component {
             <Tooltip id="tooltip"><strong>You need to be logged in to leave a review</strong></Tooltip>
         );
         return(
-      <div>
+      <div className="proyModal">
 
         <Button bsSize="sm" onClick={this.modalOpen.bind(this)}>
           Learn more
