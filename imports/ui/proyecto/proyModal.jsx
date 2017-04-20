@@ -39,7 +39,7 @@ class PModal extends React.Component {
           </Modal.Header>
           <Modal.Body>
             {this.props.proyecto.description?
-              <div>
+              <div id="description">
             <h3>Description</h3>
             <p>{this.props.proyecto.description}</p>
 
@@ -69,7 +69,7 @@ class PModal extends React.Component {
               </div>
 
               {this.props.proyecto.webpage &&
-                <div className="row">
+                <div className="row" id="webpage">
                   <div className="col-md-12">
                     <h4>Webpage: <a href={this.props.proyecto.webpage}><small>{this.props.proyecto.webpage}</small></a></h4>
                   </div>
@@ -77,7 +77,7 @@ class PModal extends React.Component {
               }
               <hr/>
 
-              {this.props.proyecto.collaborator &&<div>
+              {this.props.proyecto.collaborator &&<div id="collaborator">
                   <h3>Owner's prefered collaborator profile</h3>
                   <p>{this.props.proyecto.collaborator}</p>
                   <a href={this.props.proyecto.url}>Start collaborating!</a>
@@ -88,7 +88,7 @@ class PModal extends React.Component {
 
               {
                 Meteor.user()?
-                <div>
+                <div id="rateProject">
                 <h3>Rate this project</h3>
                 <ReactStars count={5} onChange={this.props.addRating} size={24} color2={'#637a00'} value={this.props.avgRating} />
                 </div>

@@ -109,7 +109,7 @@ if(Meteor.isClient)
             chai.assert(result.hasClass('proyModal'));
         });
 
-        it("Should render a disowned project", function() {
+        it("Should render a complete project", function() {
             const testProject = Factory.build('project', {
                     'url' : 'https://github.com/Llamatech/review-me',
                     'description' : 'description',
@@ -137,31 +137,72 @@ if(Meteor.isClient)
             });
 
             const wrapper  = shallow(<PModal proyecto={testProject}
-                avgRating={testProject.avgRate} comments={testProject.comments} />);
+                avgRating={testProject.ratings.avgRate} comments={testProject.comments} />);
             const modal = wrapper.find(Modal);
 
             const title = modal.children().children().children().children().at(0);
             const info = modal.children().at(1);
-            const description = info.children().at(0)
-            //pls
-            console.log(description.debug());
+            const description = info.children().at(0).children().at(1);
+            const stats = info.children().at(2);
+            // stats.children().at(1).text()
+            const language = info.children().at(3);
+            const webpage = info.children().at(4);
+            const collab = info.children().at(6);
+            const rating = info.children().at(7).children().at(1);
+            //.props().value
+            // console.log(rating.debug());
 
-            // const info_wrapper = well.children().children();
-            // const info_header = info_wrapper.at(0);
-            // const summary_wrapper = info_wrapper.at(1);
-            // const url_wrapper = info_wrapper.at(2);
-            // const repo_stats = info_wrapper.at(3);
-            // const stars_wrapper = info_wrapper.at(4);
-            // // console.log(stars_wrapper.debug());
-            // chai.assert.equal(info_header.children().at(0).text(), testProject.name);
-            // chai.assert.equal(info_header.children().at(1).text(), testProject.owner);
-            // chai.assert.equal(summary_wrapper.text(), testProject.summary);
-            // chai.assert.equal(url_wrapper.childAt(0).props().href, testProject.url);
-            // chai.assert.equal(repo_stats.childAt(0).text(), 'Forks: ' + testProject.repo.forks);
-            // chai.assert.equal(repo_stats.childAt(1).text(), 'Stars: ' + testProject.repo.stars);
-            // chai.assert.equal(repo_stats.childAt(2).text(), 'Watches: ' + testProject.repo.watchers);
-            // chai.assert.equal(stars_wrapper.childAt(0).props().value, testProject.ratings.avgRate);
-            chai.assert(title, "holi");
+            chai.assert.equal(title.text(), testProject.name);
+            chai.assert.equal(description.text(), testProject.description);
+            chai.assert.equal(stats.children().at(0).text(), ' Forks: '+testProject.repo.forks);
+            chai.assert.equal(stats.children().at(1).text(), ' Stars: '+testProject.repo.stars);
+            chai.assert.equal(stats.children().at(2).text(), ' Watches: '+testProject.repo.watchers);
+            chai.assert.equal(stats.children().at(3).text(), ' Issues: '+testProject.repo.issues);
+            chai.assert.equal(language.text(), 'Primary language: '+testProject.repo.language);
+            chai.assert.equal(webpage.text(), 'Webpage: '+testProject.webpage);
+            chai.assert.equal(collab.text(), 'Owner\'s prefered collaborator profile'+testProject.collaborator+'Start collaborating!');
+            chai.assert.equal(rating.props().value, testProject.ratings.avgRate);
+        });
+
+        it("Project without webpage, collaborator profile or description should not have them", function() {
+            const testProject = Factory.build('project', {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : '',
+                    'collaborator' : '',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : '',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
+                    'user' : 'andfoy'
+            });
+
+            const wrapper  = shallow(<PModal proyecto={testProject}
+                avgRating={testProject.ratings.avgRate} comments={testProject.comments} />);
+            const modal = wrapper.find(Modal);
+
+            const info = modal.children().at(1);
+            const description = info.find('#description');
+            const webpage = info.find('#webpage');
+            const collab = info.find('#collaborator');
+            //.props().value
+            expect(description).to.have.length(0);
+            expect(webpage).to.have.length(0);
+            expect(collab).to.have.length(0);
         });
 
         // it("Should render an owned project", function() {
