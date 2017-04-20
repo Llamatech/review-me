@@ -469,7 +469,7 @@ if(Meteor.isClient)
             // console.log(modal_wrapper.debug());
             modal_wrapper.props().saveComment('Full Comment');
             const afterProject = Projects.find({}).fetch()[0];
-            // console.log(afterProject.comments);
+            console.log(afterProject.comments);
             chai.assert.equal(afterProject.comments[0].text, 'Full Comment');
             // console.log(modal_wrapper.props().comments);
             // chai.assert.equal(wrapper.state('alertText'), 'Comments should be longer than 5 characters!');
