@@ -10,6 +10,7 @@ class Proyectos extends Component {
 
     organize() {
         var arr = [];
+        console.log(this.props.proyectos);
         this.props.proyectos.map((proyecto) => {
             arr.push(
                 <div className="col-md-4"><Proyecto login={this.props.login} eraseProject={this.props.eraseProject} key={proyecto.id} proyecto={proyecto}/></div>
@@ -22,7 +23,7 @@ class Proyectos extends Component {
     render() {
         if (this.props.proyectos) {
             return (
-                <div>
+                <div className="proyectos">
 
                     <div className="tit text-center">
                         {this.props.mine
