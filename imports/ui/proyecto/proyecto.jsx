@@ -87,6 +87,7 @@ class Proyecto extends React.Component {
 
     eraseComment(commId) {
         Meteor.call('projects.removeComment', {projId:this.props.proyecto._id, commId:commId}, (err, res) => {
+            console.log(err);
             this.setState({comments: this.props.proyecto.comments});
         });
     }
