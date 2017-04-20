@@ -296,7 +296,7 @@ if(Meteor.isClient)
 
             const wrapper  = shallow(<PModal proyecto={testProject}
                 avgRating={testProject.ratings.avgRate} comments={testProject.comments} />);
-            console.log(wrapper.instance())
+            // console.log(wrapper.instance())
             wrapper.instance().modalClose();
             const modal = wrapper.find(Modal);
 

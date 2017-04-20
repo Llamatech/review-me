@@ -59,10 +59,10 @@ if(Meteor.isClient)
             const searchFunc = sinon.spy();
             const wrapper = shallow(<AdvSearch buscarAdv={searchFunc} />);
             const fork_wrapper = wrapper.childAt(0).childAt(1);
-            console.log(fork_wrapper.debug());
+            // console.log(fork_wrapper.debug());
             fork_wrapper.simulate('change', {target: {value: '3'}});
             // console.log(fork_wrapper.debug());
-            console.log(searchFunc.args[0][0]);
+            // console.log(searchFunc.args[0][0]);
             chai.assert.equal(searchFunc.args[0][0].forks, "3");
         });
 
@@ -70,10 +70,10 @@ if(Meteor.isClient)
             const searchFunc = sinon.spy();
             const wrapper = shallow(<AdvSearch buscarAdv={searchFunc} />);
             const fork_wrapper = wrapper.childAt(1).childAt(1);
-            console.log(fork_wrapper.debug());
+            // console.log(fork_wrapper.debug());
             fork_wrapper.simulate('change', {target: {value: '3'}});
             // console.log(fork_wrapper.debug());
-            console.log(searchFunc.args[0][0]);
+            // console.log(searchFunc.args[0][0]);
             chai.assert.equal(searchFunc.args[0][0].stars, "3");
         });
 
@@ -81,10 +81,10 @@ if(Meteor.isClient)
             const searchFunc = sinon.spy();
             const wrapper = shallow(<AdvSearch buscarAdv={searchFunc} />);
             const fork_wrapper = wrapper.childAt(2).childAt(1);
-            console.log(fork_wrapper.debug());
+            // console.log(fork_wrapper.debug());
             fork_wrapper.simulate('change', {target: {value: '3'}});
             // console.log(fork_wrapper.debug());
-            console.log(searchFunc.args[0][0]);
+            // console.log(searchFunc.args[0][0]);
             chai.assert.equal(searchFunc.args[0][0].watchers, "3");
         });
 
@@ -92,10 +92,10 @@ if(Meteor.isClient)
             const searchFunc = sinon.spy();
             const wrapper = shallow(<AdvSearch buscarAdv={searchFunc} />);
             const fork_wrapper = wrapper.childAt(3).childAt(1);
-            console.log(fork_wrapper.debug());
+            // console.log(fork_wrapper.debug());
             fork_wrapper.simulate('change', {target: {value: '3'}});
             // console.log(fork_wrapper.debug());
-            console.log(searchFunc.args[0][0]);
+            // console.log(searchFunc.args[0][0]);
             chai.assert.equal(searchFunc.args[0][0].issues, "3");
         });
     });
