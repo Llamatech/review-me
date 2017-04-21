@@ -137,6 +137,15 @@ if(Meteor.isClient)
                 };
             };
         });
+
+        it('Should display an alert if needed', function() {
+            const deleteFunc = sinon.spy();
+            const saveFunc = sinon.spy();
+            const wrapper = shallow(<Comments comments={[]} alert={true} alertText={'Test Alert!'} eraseComment={deleteFunc} saveComment={saveFunc}/>);
+            const alert_wrapper = wrapper.find('.alert');
+            chai.assert(alert_wrapper.hasClass('alert'));
+            chai.assert.equal(alert_wrapper.childAt(1).text(), 'Test Alert!');
+        });
     });
 
 }
