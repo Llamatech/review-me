@@ -127,10 +127,6 @@ class App extends Component {
         Session.set('mine', false);
     }
 
-    help() {
-        this.state.proyectos = this.props.proyectos;
-    }
-
     render() {
         return (
             <div className="app">

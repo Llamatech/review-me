@@ -9,6 +9,8 @@ import { chai, expect } from 'meteor/practicalmeteor:chai';
 import {Projects} from '../api/projects.js';
 import {Meteor} from 'meteor/meteor';
 import App from './App.jsx';
+import Navib from './navbar.jsx';
+import Proyectos from './proyecto/proyectos.jsx'
 
 import { Button, Modal, Tooltip } from 'react-bootstrap';
 import ReactStars from 'react-stars';
@@ -36,6 +38,7 @@ if(Meteor.isClient)
         this.timeout(15000);
 
         beforeEach(function () {
+
             // console.log(Meteor.user());
             const user = {
                 'services': {
@@ -49,8 +52,151 @@ if(Meteor.isClient)
 
         it('Should Render component <App/>', function () {
 
-            const result  = shallow(<App />);
-            //chai.assert(result.hasClass('app'));
+            const result  = mount(<App />);
+            chai.assert(result.hasClass('app'));
+        });
+
+        it('Should add project', function () {
+            Meteor.call('projects.removeAll');
+            const pr = {url:'https://github.com/meteor/todos',description:'descrip'};
+
+
+            const result  = mount(<App />);
+            // console.log(result.instance().debug());
+            const nav = result.find(Navib);
+            let projs = result.find(Proyectos);
+            nav.props().addProject(pr);
+            setTimeout(()=>{
+                chai.assert.isAbove(Projects.find({}).fetch().length,0);
+            },1000);
+        });
+
+        it('Should change state to mine and back to dashboard', function () {
+            Meteor.call('projects.removeAll');
+
+            const result  = mount(<App />);
+            // console.log(result.instance().debug());
+            const nav = result.find(Navib);
+            const projs = result.find(Proyectos);
+            nav.props().openMine();
+            chai.assert.equal(projs.props().mine,true);
+            nav.props().backHome();
+            chai.assert.equal(projs.props().mine,false);
+        });
+
+        it('Should not show any projects that dont match', function () {
+
+            Meteor.call('projects.removeAll');
+            const testProject = Factory.build('project', {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : '',
+                    'collaborator' : '',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : '',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
+                    'user' : 'andfoy'
+            });
+
+            const result  = mount(<App />);
+            console.log(result.state());
+            // console.log(result.instance().debug());
+            const nav = result.find(Navib);
+            const projs = result.find(Proyectos);
+            nav.props().buscar('djhfsjkfghsjdfgj');
+            chai.assert.equal(projs.props().proyectos.length,0);
+        });
+
+        it('Should search correctly', function () {
+
+            Meteor.call('projects.removeAll');
+            const testProject = Factory.build('project', {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : '',
+                    'collaborator' : '',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : '',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
+                    'user' : 'andfoy'
+            });
+
+            const result  = mount(<App />);
+            console.log(result.state());
+            // console.log(result.instance().debug());
+            const nav = result.find(Navib);
+            const projs = result.find(Proyectos);
+            console.log(projs.props().proyectos)
+            nav.props().buscar('review');
+            // chai.assert.notEqual(projs.props().proyectos.length,0);
+        });
+
+        it('Should search by stats', function () {
+
+            Meteor.call('projects.removeAll');
+            const testProject = Factory.build('project', {
+                    'url' : 'https://github.com/Llamatech/review-me',
+                    'description' : '',
+                    'collaborator' : '',
+                    'id' : 83160698,
+                    'name' : 'review-me',
+                    'owner' : 'Llamatech',
+                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
+                    'webpage' : '',
+                    'repo' : {
+                        'url' : 'https://github.com/Llamatech/review-me',
+                        'fork' : false,
+                        'watchers' : 0,
+                        'forks' : 8,
+                        'stars' : 0,
+                        'language' : 'JavaScript',
+                        'issues' : 3,
+                    },
+                    'parent_repo' : '',
+                    'comments' : [],
+                    'ratings' : {
+                        'avgRate': 3,
+                    },
+                    'user' : 'andfoy'
+            });
+
+            const result  = mount(<App />);
+            console.log(result.state());
+            // console.log(result.instance().debug());
+            const nav = result.find(Navib);
+            const projs = result.find(Proyectos);
+            nav.props().buscar('djhfsjkfghsjdfgj');
+            chai.assert.equal(projs.props().proyectos.length,0);
         });
 
         // it("Should render a complete project", function() {
