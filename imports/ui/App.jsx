@@ -34,10 +34,6 @@ class App extends Component {
         });
     }
 
-    getProyectos() {
-        this.setState({proyectos: this.props.projects});
-    }
-
     buscarProyectos(t) {
         this.setState({term: t});
         Session.set('term', t);
@@ -127,13 +123,9 @@ class App extends Component {
         Session.set('mine', false);
     }
 
-    help() {
-        this.state.proyectos = this.props.proyectos;
-    }
-
     render() {
         return (
-            <div>
+            <div className="app">
               <div className="col-md-1" />
               <div className="col-md-10">
                 <Navib

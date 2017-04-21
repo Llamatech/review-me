@@ -22,7 +22,7 @@ class Proyectos extends Component {
     render() {
         if (this.props.proyectos) {
             return (
-                <div>
+                <div className="proyectos">
 
                     <div className="tit text-center">
                         {this.props.mine
@@ -55,7 +55,7 @@ class Proyectos extends Component {
             );
         } else {
             return (
-                <div></div>
+                <div className="noProjs"></div>
             );
         }
 
