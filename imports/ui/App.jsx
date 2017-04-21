@@ -133,7 +133,7 @@ class App extends Component {
 
     render() {
         return (
-            <div>
+            <div className="app">
               <div className="col-md-1" />
               <div className="col-md-10">
                 <Navib
