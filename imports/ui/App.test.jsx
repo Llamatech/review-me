@@ -58,7 +58,7 @@ if(Meteor.isClient)
 
         it('Should add project', function () {
             Meteor.call('projects.removeAll');
-            const pr = {url:'https://github.com/meteor/todos',description:'descrip'};
+            const pr = {url:'https://github.com/cgarciahdez/cookyMeteor',description:'descrip'};
 
 
             const result  = mount(<App />);
@@ -122,7 +122,7 @@ if(Meteor.isClient)
             chai.assert.equal(projs.props().proyectos.length,0);
         });
 
-        it('Should search correctly', function () {
+        it('Should not find project with so many stats', function () {
 
             Meteor.call('projects.removeAll');
             const testProject = Factory.build('project', {
@@ -152,51 +152,38 @@ if(Meteor.isClient)
             });
 
             const result  = mount(<App />);
-            console.log(result.state());
+
             // console.log(result.instance().debug());
             const nav = result.find(Navib);
             const projs = result.find(Proyectos);
-            console.log(projs.props().proyectos)
-            nav.props().buscar('review');
-            // chai.assert.notEqual(projs.props().proyectos.length,0);
+            nav.props().buscarAdv({
+                forks: '1000',
+                stars: '1000',
+                watchers: '1000',
+                issues: '1000'
+            });
+            chai.assert.equal(projs.props().proyectos.length,0);
         });
 
-        it('Should search by stats', function () {
-
+        it('Should erase a project', function () {
             Meteor.call('projects.removeAll');
-            const testProject = Factory.build('project', {
-                    'url' : 'https://github.com/Llamatech/review-me',
-                    'description' : '',
-                    'collaborator' : '',
-                    'id' : 83160698,
-                    'name' : 'review-me',
-                    'owner' : 'Llamatech',
-                    'summary' : 'The Internet Project Database - A system to review and rate FOSS projects hosted on Github',
-                    'webpage' : '',
-                    'repo' : {
-                        'url' : 'https://github.com/Llamatech/review-me',
-                        'fork' : false,
-                        'watchers' : 0,
-                        'forks' : 8,
-                        'stars' : 0,
-                        'language' : 'JavaScript',
-                        'issues' : 3,
-                    },
-                    'parent_repo' : '',
-                    'comments' : [],
-                    'ratings' : {
-                        'avgRate': 3,
-                    },
-                    'user' : 'andfoy'
-            });
+            const pr = {url:'https://github.com/cgarciahdez/cookyMeteor',description:'descrip'};
+
 
             const result  = mount(<App />);
-            console.log(result.state());
             // console.log(result.instance().debug());
             const nav = result.find(Navib);
-            const projs = result.find(Proyectos);
-            nav.props().buscar('djhfsjkfghsjdfgj');
-            chai.assert.equal(projs.props().proyectos.length,0);
+            let projs = result.find(Proyectos);
+            nav.props().addProject(pr);
+            setTimeout(()=>{
+                const id = Projects.find({}).fetch()[0]._id;
+                projs.props().eraseProject(id);
+                setTimeout(()=>{
+                    console.log(Projects.find({id}).fetch());
+                    chai.assert.equal(Projects.find(id).fetch().length,0);
+                },1500)
+
+            },1500);
         });
 
         // it("Should render a complete project", function() {

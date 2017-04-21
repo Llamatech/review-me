@@ -34,10 +34,6 @@ class App extends Component {
         });
     }
 
-    getProyectos() {
-        this.setState({proyectos: this.props.projects});
-    }
-
     buscarProyectos(t) {
         this.setState({term: t});
         Session.set('term', t);
