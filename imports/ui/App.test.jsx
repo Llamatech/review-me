@@ -114,7 +114,6 @@ if(Meteor.isClient)
             });
 
             const result  = mount(<App />);
-            console.log(result.state());
             // console.log(result.instance().debug());
             const nav = result.find(Navib);
             const projs = result.find(Proyectos);
@@ -179,7 +178,6 @@ if(Meteor.isClient)
                 const id = Projects.find({}).fetch()[0]._id;
                 projs.props().eraseProject(id);
                 setTimeout(()=>{
-                    console.log(Projects.find({id}).fetch());
                     chai.assert.equal(Projects.find(id).fetch().length,0);
                 },1500)
 
