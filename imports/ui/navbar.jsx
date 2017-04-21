@@ -15,16 +15,12 @@ import {
 import PForm from './proyForm';
 
 class Navib extends React.Component {
-    buscar(term) {
-        this.props.buscar(term);
-        //aqui se llama para atras a lo que llame a la db
-    }
+
 
     constructor(props) {
         super(props);
         this.state = {
             showModal: false,
-            showSearch: false,
             alert: false
         };
     }
@@ -45,13 +41,6 @@ class Navib extends React.Component {
         this.setState({alert: false});
     }
 
-    searchClose() {
-        this.setState({showSearch: false});
-    }
-
-    searchOpen() {
-        this.setState({showSearch: true});
-    }
 
     render() {
         return (
@@ -71,13 +60,13 @@ class Navib extends React.Component {
                   </Nav>
                   <Navbar.Form pullLeft>
                     <FormGroup>
-                      <FormControl type="text" aria-label="Search" placeholder="Search" onChange={(event) => this.buscar(event.target.value)}/>
+                      <FormControl type="text" aria-label="Search" placeholder="Search" onChange={(event) => this.props.buscar(event.target.value)}/>
                     </FormGroup>
                     {' '}
                     {Meteor.user()?null:<Button type="button" onClick={() => this.props.login()}><i className="fa fa-github"></i> Login with Github</Button>}
                   </Navbar.Form>
                   {Meteor.user()?
-                  <Nav>
+                  <Nav className="logged">
                   <NavDropdown title={Meteor.user().services.github.username} id="basic-nav-dropdown" className="newProj">
                     <MenuItem onClick={()=>this.props.openMine()}>My projects</MenuItem>
                     <MenuItem divider />
