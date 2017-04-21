@@ -6,7 +6,7 @@ import { chai, expect } from 'meteor/practicalmeteor:chai';
 import PForm from './proyForm.jsx';
 import {Meteor} from 'meteor/meteor';
 
-import {FormControl, FormGroup, Button} from 'react-bootstrap';
+import {Modal,FormControl, FormGroup, Button} from 'react-bootstrap';
 
 
 if(Meteor.isClient)
@@ -88,5 +88,44 @@ if(Meteor.isClient)
 
 
         });
+
+        it('Should show correct alerts when adding project', function() {
+            const urlChange = 'https://github.com/cgarciahdez/cookyMeteor';
+            const descChange = 'description';
+            const collabChange = 'collab';
+            const modalCloseMock = sinon.spy();
+            const addProjectMock = sinon.spy();
+            const wrapper = shallow(<PForm show={true} modalClose={modalCloseMock} addProject={addProjectMock} />);
+
+            const form_wrapper = wrapper.find('form');
+            console.log(form_wrapper.find(FormControl).at(1).debug());
+            const url_entry = form_wrapper.find(FormControl).at(0);
+            const desc_entry = form_wrapper.find(FormControl).at(1);
+            const collab_entry = form_wrapper.find(FormControl).at(2);
+
+
+            // console.log(url_entry.debug());
+            url_entry.simulate('change', {target: {value: urlChange}});
+            desc_entry.simulate('change', {target: {value: descChange}});
+            collab_entry.simulate('change', {target: {value: collabChange}});
+
+            wrapper.instance().addProject({preventDefault:()=>{console.log("yes")}});
+            console.log(wrapper.state());
+            chai.assert.equal(wrapper.state().goodAlert,true);
+            chai.assert.equal(wrapper.state().errorAlert,false);
+            chai.assert.equal(wrapper.find('.alert-success').length,1);
+
+            url_entry.simulate('change', {target: {value: "jsfhjsfghjs"}});
+
+            wrapper.instance().addProject({preventDefault:()=>{console.log("yes")}});
+            console.log(wrapper.state());
+            chai.assert.equal(wrapper.state().goodAlert,false);
+            chai.assert.equal(wrapper.state().errorAlert,true);
+            chai.assert.equal(wrapper.find('.alert-danger').length,1);
+
+
+
+        });
+
     });
 }

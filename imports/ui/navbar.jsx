@@ -55,7 +55,7 @@ class Navib extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className = "navbar">
               <Navbar collapseOnSelect className="navbar-fixed-top">
                 <Navbar.Header>
                   <Navbar.Brand>
