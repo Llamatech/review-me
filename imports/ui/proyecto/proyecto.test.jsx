@@ -339,7 +339,7 @@ if(Meteor.isClient)
                 // console.log(err);
             });
 
-            const testProject = Projects.find({}).fetch()[0]
+            const testProject = Projects.find({}).fetch().slice(-1)[0]
             // console.log(testProject);
             const onProjectDeletion = sinon.spy();
             const wrapper  = mount(<Proyecto id={testProject._id} proyecto={testProject} eraseProject={onProjectDeletion} /> );
@@ -358,7 +358,7 @@ if(Meteor.isClient)
             // modal_node.simulate('hide');
             // wrapper.update();
             // console.log(wrapper.update().state());
-            chai.assert.equal(Projects.find({}).fetch()[0].ratings.avgRate, 4);
+            chai.assert.equal(Projects.find({}).fetch().slice(-1)[0].ratings.avgRate, 4);
 
             // Meteor.call('projects.eraseProject', testProject._id);
         });
