@@ -11,6 +11,9 @@ We confirmed that telling our user to login before adding a project is needed.
 Moreover, he could easily explore the page and read the instructions, although
 we could make an additional button for the login in the page.
 
+He tried to go back using the logo, which wasn't working, so we changed that
+to work the same way as the button "Back to dashboard".
+
 ## Usability test two
 We told our user to find a project with more than 10 stars and add a review and
 a rating to it, and to find a project with the name "meteor" on it. This was the result.
@@ -22,4 +25,10 @@ review the project. He told us the search bar was very obvious and easy to find,
 as were the filters for the project's stats. He tried to go back to the dashboard using
 the logo, so it's probably a good idea to make it go back to the dashboard.
 
-## Usability survey
+# Experts consultation
+A consultation with developers, our target audience, revealed a couple mistakes we'd made.
+They felt that the text in the homepage was too long, and revealed little. We redesigned it
+to still let the user know our purpose and the way the webpage works, but in a much more 
+readable way. They also told us to make it obvious that a review and comment were only 
+allowed when the user was logged in, and to tell as much to a user who wasn't.
+
